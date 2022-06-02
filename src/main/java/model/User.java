@@ -1,5 +1,6 @@
 package model;
 
+import java.text.DateFormat;
 import java.util.Date;
 
 public class User {
@@ -21,6 +22,15 @@ public class User {
         this.date_of_birth = date_of_birth;
         this.password = password;
     }
+
+    public User(String full_name, String email, String avatar, Date date_of_birth, String password) {
+        this.full_name = full_name;
+        this.email = email;
+        this.avatar = avatar;
+        this.date_of_birth = date_of_birth;
+        this.password = password;
+    }
+
 
     public int getId() {
         return id;

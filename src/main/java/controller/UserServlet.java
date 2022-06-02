@@ -7,6 +7,11 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -60,17 +65,32 @@ public class UserServlet extends HttpServlet {
                 Login(request, response);
                 break;
             case "register":
-                Registers(request,response);
+                try {
+                    Registers(request,response);
+                } catch (ParseException | SQLException e) {
+                    e.printStackTrace();
+                }
                 break;
         }
     }
 
-    private void Registers(HttpServletRequest request, HttpServletResponse response) {
-        String name = request.getParameter("full_name");
+    private void Registers(HttpServletRequest request, HttpServletResponse response) throws ParseException, SQLException, ServletException, IOException {
+        String full_name = request.getParameter("full_name");
         String email = request.getParameter("email");
-        String avatar = request.getParameter("avatar");
+        String avatar = "image/4wvuq0i4ozs1q.jpg" ;
         String date_of_birth = request.getParameter("date_of_birth");
+        Date date = (Date) new SimpleDateFormat("dd/MM/yyyy").parse(date_of_birth);
         String password = request.getParameter("password");
+        User user = new User(full_name,email,avatar, date,password);
+        if (userService.checkRegister(user)){
+            userService.add(user);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("user/login.jsp");
+            requestDispatcher.forward(request,response);
+        }else {
+            response.sendRedirect("/users?action=register");
+        }
+
+
     }
 
 
@@ -82,6 +102,7 @@ public class UserServlet extends HttpServlet {
             request.setAttribute("user", UserServiceImpl.currentUsers);
             requestDispatcher.forward(request,response);
         }else {
+
             response.sendRedirect("users?action=login");
         }
 

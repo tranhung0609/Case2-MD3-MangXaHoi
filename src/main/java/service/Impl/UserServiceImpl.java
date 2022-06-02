@@ -29,7 +29,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void add(User user) throws SQLException {
-
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement("INSERT INTO User(full_name,email,avatar, date_of_birth,password) VALUES (?, ?, ?, ?,?)")) {
+            preparedStatement.setString(1, user.getFull_name());
+            preparedStatement.setString(2, user.getEmail());
+            preparedStatement.setString(3, user.getAvatar());
+            String date = user.getDate_of_birth().toString();
+            preparedStatement.setString(4, date);
+            preparedStatement.setString(4, user.getPassword());
+            preparedStatement.executeUpdate();
+        }
     }
 
     @Override
@@ -75,6 +85,17 @@ public class UserServiceImpl implements UserService {
             if (a.getEmail().equals(email) && a.getPassword().equals(password)) {
                 check = true;
                 currentUsers = a;
+                break;
+            }
+        }
+        return check;
+    }
+    public boolean checkRegister(User user) throws SQLException {
+        boolean check = true;
+        List<User> users = findAll();
+        for (User a : users) {
+            if (a.getEmail().equals(user.getEmail())) {
+                check = false;
                 break;
             }
         }

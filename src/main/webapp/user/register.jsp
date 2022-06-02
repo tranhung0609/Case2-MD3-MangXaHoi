@@ -14,7 +14,6 @@
 <form method="post">
     <input type="text" name="full_name" placeholder="fullname">
     <input type="text" name="email">
-    <input type="text" name="avatar">
     <input type="date" name="date_of_birth">
     <input type="text" name="password">
     <button>Register</button>
