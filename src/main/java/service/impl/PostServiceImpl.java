@@ -3,12 +3,16 @@ package service.impl;
 import model.Post;
 import service.PostService;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostServiceImpl implements PostService {
+    UserServiceImpl userService = new UserServiceImpl();
+
+
     protected Connection getConnection() {
         Connection connection = null;
         try {
@@ -22,7 +26,30 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> findAll() {
-        return null;
+        List<Post> posts = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement("SELECT * FROM posts")) {
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int userId = rs.getInt("user_id");
+                int commentId = rs.getInt("comment_id");
+                String time = rs.getString("time");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime dateTime = LocalDateTime.parse(time, formatter);
+                int likeCount = rs.getInt("like_Count");
+                int viewModeId= rs.getInt("view_mode_id");
+                String image = rs.getString("image");
+                String content = rs.getString("content");
+//                posts.add(new Post(id,userService.findById(userId),
+//                        commentService.findById(commentId),dateTime,likeCount,viewModeService.findById(viewModeId),image,content));
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return posts;
     }
 
     @Override

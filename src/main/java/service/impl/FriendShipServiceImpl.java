@@ -52,16 +52,26 @@ public class FriendShipServiceImpl implements FriendShipService {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO friend_ship(user_id_1, user_id_2, status_id) VALUES (?, ?, ?)")) {
             preparedStatement.setInt(1, friendShip.getUser1().getId());
-            preparedStatement.setInt(1, friendShip.getUser2().getId());
+            preparedStatement.setInt(2, friendShip.getUser2().getId());
             preparedStatement.setInt(3, friendShip.getStatus().getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
         }
     }
 
+    public List<FriendShip> findByUserId(int userId) {
+        List<FriendShip> friendShips = findAll();
+        for (FriendShip f : friendShips) {
+            if (f.getUser1().getId() == userId || f.getUser2().getId() == userId) {
+                friendShips.add(f);
+            }
+        }
+        return friendShips;
+    }
+
     @Override
     public FriendShip findById(int id) {
-        List<FriendShip> friendShips = new ArrayList<>();
+        List<FriendShip> friendShips = findAll();
         for (FriendShip f : friendShips) {
             if (f.getId() == id) {
                 return f;
