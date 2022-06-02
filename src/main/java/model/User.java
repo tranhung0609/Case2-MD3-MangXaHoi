@@ -1,25 +1,46 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
 
 public class User {
     private int id;
     private String fullName;
     private String email;
     private String avatar;
-    private LocalDate dateOfBirth;
+    private Date dateOfBirth;
     private String password;
+    List<FriendShip> friendShips;
 
     public User() {
     }
 
-    public User(int id, String fullName, String email, String avatar, LocalDate dateOfBirth, String password) {
+    public User(int id, String fullName, String email, String avatar, Date dateOfBirth, String password) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
         this.avatar = avatar;
         this.dateOfBirth = dateOfBirth;
         this.password = password;
+    }
+
+    public List<FriendShip> getFriendShips() {
+        return friendShips;
+    }
+
+    public void setFriendShips(List<FriendShip> friendShips) {
+        this.friendShips = friendShips;
+    }
+
+    public User(int id, String fullName, String email, String avatar, Date dateOfBirth, String password, List<FriendShip> friendShips) {
+        this.id = id;
+        this.fullName = fullName;
+        this.email = email;
+        this.avatar = avatar;
+        this.dateOfBirth = dateOfBirth;
+        this.password = password;
+        this.friendShips = friendShips;
     }
 
     public int getId() {
@@ -54,11 +75,11 @@ public class User {
         this.avatar = avatar;
     }
 
-    public LocalDate getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

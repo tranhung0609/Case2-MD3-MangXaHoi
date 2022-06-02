@@ -1,6 +1,7 @@
 package service.impl;
 
 import model.FriendShip;
+import model.User;
 import service.FriendShipService;
 
 import java.sql.*;
@@ -8,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FriendShipServiceImpl implements FriendShipService {
+    UserServiceImpl userService = new UserServiceImpl();
+    StatusServiceImpl statusService = new StatusServiceImpl();
+
     static String jdbcURL = "jdbc:mysql://localhost:3306/social_network_case_md3?useSSL=false";
     static String jdbcUsername = "root";
     static String jdbcPassword = "1234";
@@ -25,23 +29,22 @@ public class FriendShipServiceImpl implements FriendShipService {
 
     @Override
     public List<FriendShip> findAll() {
-//        List<FriendShip> friendShips = new ArrayList<>();
-//        try (Connection connection = getConnection();
-//             PreparedStatement preparedStatement =
-//                     connection.prepareStatement("SELECT * FROM friend_ship")) {
-//            ResultSet rs = preparedStatement.executeQuery();
-//            while (rs.next()) {
-//                int id = rs.getInt("id");
-//                int userId1 = rs.getInt("user_id_1");
-//                int userId2 = rs.getInt("user_id_2");
-//                int status = rs.getInt("status_id");
-//                friendShips.add(new FriendShip(id, , accountService.findById(accountId), status));
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return orders;
-        return null;
+        List<FriendShip> friendShips = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement("SELECT * FROM friend_ship")) {
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int userId1 = rs.getInt("user_id_1");
+                int userId2 = rs.getInt("user_id_2");
+                int statusId = rs.getInt("status_id");
+                friendShips.add(new FriendShip(id, userService.findById(userId1), userService.findById(userId2), statusService.findById(statusId)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return friendShips;
     }
 
     @Override
@@ -58,7 +61,12 @@ public class FriendShipServiceImpl implements FriendShipService {
 
     @Override
     public FriendShip findById(int id) {
-
+        List<FriendShip> friendShips = new ArrayList<>();
+        for (FriendShip f : friendShips) {
+            if (f.getId() == id) {
+                return f;
+            }
+        }
         return null;
     }
 
@@ -68,18 +76,27 @@ public class FriendShipServiceImpl implements FriendShipService {
         return false;
     }
 
-    public void updateStatus() {
-//        try (Connection connection = getConnection();
-//             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE friend_ship SET status_id = ?)")) {
-//            preparedStatement.setInt(1, friendShip.getUser1().getId());
-//            preparedStatement.executeUpdate();
-//        } catch (SQLException e) {
-//        }
+    public void updateStatus(int statusId) {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE friend_ship SET status_id = ?)")) {
+            preparedStatement.setInt(1, statusId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+        }
     }
 
     @Override //hủy kết bạn >>> xóa trong db
     public boolean delete(int id) throws SQLException {
-        return false;
+        boolean rowDeleted = false;
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement("DELETE FROM friend_ship WHERE id = ?")) {
+            preparedStatement.setInt(1, id);
+            rowDeleted = preparedStatement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rowDeleted;
     }
 
     @Override  //lấy list bạn bè theo tên
