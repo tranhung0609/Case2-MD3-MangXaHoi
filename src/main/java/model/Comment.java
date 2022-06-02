@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class Comment {
     private int id;
-    private String postId;
+    private int postId;
     private User user;
     private LocalDateTime time;
     private String content;
@@ -13,7 +13,7 @@ public class Comment {
 
     }
 
-    public Comment(int id, String postId, User user, LocalDateTime time, String content) {
+    public Comment(int id, int postId, User user, LocalDateTime time, String content) {
         this.id = id;
         this.postId = postId;
         this.user = user;
@@ -29,11 +29,11 @@ public class Comment {
         this.id = id;
     }
 
-    public String getPostId() {
+    public int getPostId() {
         return postId;
     }
 
-    public void setPostId(String postId) {
+    public void setPostId(int postId) {
         this.postId = postId;
     }
 

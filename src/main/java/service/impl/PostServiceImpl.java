@@ -1,5 +1,6 @@
 package service.impl;
 
+import model.Comment;
 import model.Post;
 import service.PostService;
 
@@ -39,7 +40,6 @@ public class PostServiceImpl implements PostService {
                 String image = rs.getString("image");
                 String content = rs.getString("content");
 
-
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,6 +54,12 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post findById(int id) {
+        List<Post> posts = findAll();
+        for (Post p : posts) {
+            if (p.getId() == id) {
+                return p;
+            }
+        }
         return null;
     }
 
