@@ -58,6 +58,16 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void add(Comment comment) throws SQLException {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("insert into comment(post_id,user_id,time,content) values (?,?,?,?)")) {
+            preparedStatement.setInt(1, comment.getPostId());
+            preparedStatement.setInt(2,comment.getUser().getId());
+            preparedStatement.setString(3,comment.getTime());
+            preparedStatement.setString(4,comment.getContent());
+            preparedStatement.executeUpdate();
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
 
     }
 
