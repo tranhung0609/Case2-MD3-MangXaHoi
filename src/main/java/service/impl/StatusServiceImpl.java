@@ -1,14 +1,15 @@
 package service.impl;
 
+import model.Status;
 import model.User;
-import service.UserService;
+import service.StatusService;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class UserServiceImpl implements UserService {
+public class StatusServiceImpl implements StatusService {
     protected Connection getConnection() {
         Connection connection = null;
         try {
@@ -21,45 +22,41 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAll() {
-        List<User> users = new ArrayList<>();
+    public List<Status> findAll() {
+        List<Status> statuses = new ArrayList<>();
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM user")) {
+                     connection.prepareStatement("SELECT * FROM status")) {
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String fullName = rs.getString("full_name");
-                String email = rs.getString("email");
-                String avatar = rs.getString("avatar");
-                Date dateOfBirth = rs.getDate("date_of_birth");
-                String password = rs.getString("password");
-                users.add(new User(id, fullName, email, avatar, dateOfBirth, password));
+                String name = rs.getString("name");
+                statuses.add(new Status(id, name));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return users;
+        return statuses;
     }
 
     @Override
-    public void add(User user) throws SQLException {
+    public void add(Status status) throws SQLException {
 
     }
 
     @Override
-    public User findById(int id) {
-        List<User> users = findAll();
-        for (User u : users) {
-            if (u.getId() == id) {
-                return u;
+    public Status findById(int id) {
+        List<Status> statuses = findAll();
+        for (Status s : statuses) {
+            if (s.getId() == id) {
+                return s;
             }
         }
         return null;
     }
 
     @Override
-    public boolean update(User user) {
+    public boolean update(Status status) {
         return false;
     }
 
@@ -69,7 +66,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findByName(String name) {
+    public List<Status> findByName(String name) {
         return null;
     }
 }
