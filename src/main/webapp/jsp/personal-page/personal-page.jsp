@@ -11,6 +11,6 @@
     <title>Title</title>
 </head>
 <body>
-
+<a href="/friend-ships?action=make-friend">Kết bạn</a>
 </body>
 </html>
