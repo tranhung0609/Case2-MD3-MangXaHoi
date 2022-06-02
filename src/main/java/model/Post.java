@@ -6,7 +6,7 @@ import java.util.List;
 public class Post {
     private int id;
     private User user;
-    private int commentId;
+    private Comment comment;
     private LocalDateTime time;
     private int likeCount;
     private ViewMode viewMode;
@@ -17,10 +17,10 @@ public class Post {
     public Post() {
     }
 
-    public Post(int id, User user, int commentId, LocalDateTime time, int likeCount, ViewMode viewMode, int image, String content, List<Comment> comments) {
+    public Post(int id, User user, Comment comment, LocalDateTime time, int likeCount, ViewMode viewMode, int image, String content, List<Comment> comments) {
         this.id = id;
         this.user = user;
-        this.commentId = commentId;
+        this.comment = comment;
         this.time = time;
         this.likeCount = likeCount;
         this.viewMode = viewMode;
@@ -45,12 +45,12 @@ public class Post {
         this.user = user;
     }
 
-    public int getCommentId() {
-        return commentId;
+    public Comment getComment() {
+        return comment;
     }
 
-    public void setCommentId(int commentId) {
-        this.commentId = commentId;
+    public void setComment(Comment comment) {
+        this.comment = comment;
     }
 
     public LocalDateTime getTime() {
