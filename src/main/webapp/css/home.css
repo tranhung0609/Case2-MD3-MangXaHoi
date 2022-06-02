@@ -1,0 +1,33 @@
+/**{*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*}*/
+.nav {
+    height: 70px;
+    width: 100%;
+    border: 1px solid;
+}
+
+.content {
+    height: 700px;
+    width: 100%;
+    border: 1px solid;
+}
+.left {
+    height: 700px;
+    width: 20%;
+    border: 1px solid;
+    float: left;
+}
+.mid {
+    height: 700px;
+    width: 60%;
+    border: 1px solid;
+    /*float: left;*/
+}
+.right {
+    height: 700px;
+    width: 20%;
+    border: 1px solid;
+    float: right;
+}
