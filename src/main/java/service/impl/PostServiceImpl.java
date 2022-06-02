@@ -3,12 +3,18 @@ package service.impl;
 import model.Comment;
 import model.Post;
 import service.PostService;
+import service.ViewModeService;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PostServiceImpl implements PostService {
+    UserServiceImpl userService = new UserServiceImpl();
+    CommentServiceImpl commentService = new CommentServiceImpl();
+    ViewModeService viewModeService = new ViewModeServiceImpl();
     public PostServiceImpl() {
     }
     protected Connection getConnection() {
@@ -34,11 +40,15 @@ public class PostServiceImpl implements PostService {
                 int id = rs.getInt("id");
                 int userId = rs.getInt("user_id");
                 int commentId = rs.getInt("comment_id");
-                Time time = rs.getTime("time");
+                String time = rs.getString("time");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime dateTime = LocalDateTime.parse(time, formatter);
                 int likeCount = rs.getInt("like_Count");
                 int viewModeId= rs.getInt("view_mode_id");
                 String image = rs.getString("image");
                 String content = rs.getString("content");
+                posts.add(new Post(id,userService.findById(userId),
+                        commentService.findById(commentId),dateTime,likeCount,viewModeService.findById(viewModeId),image,content));
 
             }
         } catch (SQLException e) {
