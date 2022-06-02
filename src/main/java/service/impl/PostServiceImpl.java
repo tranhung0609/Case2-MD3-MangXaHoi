@@ -13,7 +13,6 @@ import java.util.List;
 
 public class PostServiceImpl implements PostService {
     UserServiceImpl userService = new UserServiceImpl();
-    CommentServiceImpl commentService = new CommentServiceImpl();
     ViewModeService viewModeService = new ViewModeServiceImpl();
     public PostServiceImpl() {
     }
@@ -32,6 +31,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> findAll() {
         List<Post> posts = new ArrayList<>();
+        CommentServiceImpl commentService = new CommentServiceImpl();
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement =
                      connection.prepareStatement("SELECT * FROM posts")) {
@@ -59,6 +59,23 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void add(Post post) throws SQLException {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("insert into posts(user_id,comment_id,time,like_count,view_mode_id,image,content) values (?,?,?,?,?,?,?)")) {
+            preparedStatement.setInt(1, post.getUser().getId());
+            preparedStatement.setInt(2,post.getComment().getId());
+            DateTimeFormatter dateFormatter = DateTimeFormatter
+                    .ofPattern("yyyy/MM/dd HH:mm:ss");
+            String time = post.getTime().format(dateFormatter);
+            preparedStatement.setString(3, time);
+            preparedStatement.setInt(4,post.getLikeCount());
+            preparedStatement.setInt(5,post.getViewMode().getId());
+            preparedStatement.setString(6,post.getImage());
+            preparedStatement.setString(7,post.getContent());
+            preparedStatement.executeUpdate();
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+
 
     }
 

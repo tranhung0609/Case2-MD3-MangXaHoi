@@ -16,11 +16,10 @@ import java.util.List;
 import java.util.Locale;
 
 public class CommentServiceImpl implements CommentService {
-    UserServiceImpl userService = new  UserServiceImpl();
-    PostServiceImpl postService = new PostServiceImpl();
-
+    UserServiceImpl userService = new UserServiceImpl();
     public CommentServiceImpl() {
     }
+
     protected Connection getConnection() {
         Connection connection = null;
         try {
@@ -35,7 +34,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> findAll() {
-        List<Comment>comments = new ArrayList<>();
+        List<Comment> comments = new ArrayList<>();
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement =
                      connection.prepareStatement("SELECT * FROM comment")) {
@@ -48,7 +47,7 @@ public class CommentServiceImpl implements CommentService {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 LocalDateTime dateTime = LocalDateTime.parse(time, formatter);
                 String content = rs.getString("content");
-                comments.add(new Comment(id,postId, userService.findById(userId),dateTime,content));
+                comments.add(new Comment(id, postId, userService.findById(userId), dateTime, content));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -61,11 +60,14 @@ public class CommentServiceImpl implements CommentService {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("insert into comment(post_id,user_id,time,content) values (?,?,?,?)")) {
             preparedStatement.setInt(1, comment.getPostId());
-            preparedStatement.setInt(2,comment.getUser().getId());
-            preparedStatement.setString(3,comment.getTime());
-            preparedStatement.setString(4,comment.getContent());
+            preparedStatement.setInt(2, comment.getUser().getId());
+            DateTimeFormatter dateFormatter = DateTimeFormatter
+                    .ofPattern("yyyy/MM/dd HH:mm:ss");
+            String time = comment.getTime().format(dateFormatter);
+            preparedStatement.setString(3, time);
+            preparedStatement.setString(4, comment.getContent());
             preparedStatement.executeUpdate();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
@@ -97,4 +99,26 @@ public class CommentServiceImpl implements CommentService {
         return null;
     }
 
+    @Override
+    public List<Comment> findByPostId(int postId) {
+        List<Comment> comments = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement("SELECT * FROM comment where post_id=?")) {
+            preparedStatement.setInt(1, postId);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int userId = rs.getInt("user_id");
+                String time = rs.getString("time");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime dateTime = LocalDateTime.parse(time, formatter);
+                String content = rs.getString("content");
+                comments.add(new Comment(id, postId, userService.findById(userId), dateTime, content));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return comments;
+    }
 }

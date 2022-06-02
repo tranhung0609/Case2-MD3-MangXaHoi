@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "CommentServlet", value = "/Comments")
+@WebServlet(name = "CommentServlet", urlPatterns = "/comments")
 public class CommentServlet extends HttpServlet {
     CommentServiceImpl commentService = new CommentServiceImpl();
     @Override

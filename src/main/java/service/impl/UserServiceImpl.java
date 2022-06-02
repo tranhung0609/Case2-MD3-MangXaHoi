@@ -4,6 +4,8 @@ import model.User;
 import service.UserService;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,11 +34,12 @@ public class UserServiceImpl implements UserService {
                 String fullName = rs.getString("full_name");
                 String email = rs.getString("email");
                 String avatar = rs.getString("avatar");
-                Date dateOfBirth = rs.getDate("date_of_birth");
+                String date_of_birth = rs.getString("date_of_birth");
+                Date date = (Date) new SimpleDateFormat("dd/MM/yyyy").parse(date_of_birth);
                 String password = rs.getString("password");
-                users.add(new User(id, fullName, email, avatar, dateOfBirth, password));
+                users.add(new User(id, fullName, email, avatar, date, password));
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ParseException e) {
             e.printStackTrace();
         }
         return users;

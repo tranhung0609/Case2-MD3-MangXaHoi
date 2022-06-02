@@ -13,7 +13,7 @@
 </head>
 <body>
 <c:forEach var="comm" items="${comment}">
-    <h1>${comm.time}</h1>
+    <h1>${comm.time},${comm.user.fullName}</h1>
 </c:forEach>
 </body>
 </html>
