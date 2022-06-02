@@ -2,5 +2,5 @@ package service;
 
 import model.Comment;
 
-public interface CommentService extends GeneraSevice<Comment> {
+public interface CommentService extends GeneralService<Comment> {
 }

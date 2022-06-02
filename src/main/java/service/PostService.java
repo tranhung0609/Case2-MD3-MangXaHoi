@@ -2,5 +2,5 @@ package service;
 
 import model.Post;
 
-public interface PostService extends GeneraSevice<Post> {
+public interface PostService extends GeneralService<Post> {
 }

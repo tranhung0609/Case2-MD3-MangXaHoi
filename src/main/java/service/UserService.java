@@ -1,4 +1,6 @@
 package service;
 
-public interface UserService extends GeneraSevice{
+import model.User;
+
+public interface UserService extends GeneralService<User> {
 }
