@@ -1,6 +1,7 @@
-package service;
+package service.impl;
 
 import model.Post;
+import service.PostService;
 
 import java.sql.SQLException;
 import java.util.List;

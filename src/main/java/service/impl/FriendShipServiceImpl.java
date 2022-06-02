@@ -3,10 +3,8 @@ package service.impl;
 import model.FriendShip;
 import service.FriendShipService;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FriendShipServiceImpl implements FriendShipService {
@@ -27,6 +25,22 @@ public class FriendShipServiceImpl implements FriendShipService {
 
     @Override
     public List<FriendShip> findAll() {
+//        List<FriendShip> friendShips = new ArrayList<>();
+//        try (Connection connection = getConnection();
+//             PreparedStatement preparedStatement =
+//                     connection.prepareStatement("SELECT * FROM friend_ship")) {
+//            ResultSet rs = preparedStatement.executeQuery();
+//            while (rs.next()) {
+//                int id = rs.getInt("id");
+//                int userId1 = rs.getInt("user_id_1");
+//                int userId2 = rs.getInt("user_id_2");
+//                int status = rs.getInt("status_id");
+//                friendShips.add(new FriendShip(id, , accountService.findById(accountId), status));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return orders;
         return null;
     }
 
@@ -44,6 +58,7 @@ public class FriendShipServiceImpl implements FriendShipService {
 
     @Override
     public FriendShip findById(int id) {
+
         return null;
     }
 
@@ -51,6 +66,15 @@ public class FriendShipServiceImpl implements FriendShipService {
     public boolean update(FriendShip friendShip) {
 
         return false;
+    }
+
+    public void updateStatus() {
+//        try (Connection connection = getConnection();
+//             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE friend_ship SET status_id = ?)")) {
+//            preparedStatement.setInt(1, friendShip.getUser1().getId());
+//            preparedStatement.executeUpdate();
+//        } catch (SQLException e) {
+//        }
     }
 
     @Override //hủy kết bạn >>> xóa trong db
