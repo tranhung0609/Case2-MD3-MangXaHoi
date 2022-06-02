@@ -30,6 +30,8 @@
       </div>
     </div>
     <input type="submit" value="Login" class="form-submit">
+    <span style="color: white">Bạn chưa có tài khoản</span>
+    <a style="text-align: center" href="#">Register</a>
   </form>
 </div>
 </body>
