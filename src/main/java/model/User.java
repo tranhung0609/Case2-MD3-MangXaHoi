@@ -1,24 +1,24 @@
 package model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class User {
     private int id;
-    private String fullName;
+    private String fullname;
     private String email;
     private String avatar;
-    private LocalDateTime time;
+    private LocalDate dateOfBirth;
     private String password;
 
     public User() {
     }
 
-    public User(int id, String fullName, String email, String avatar, LocalDateTime time, String password) {
+    public User(int id, String fullname, String email, String avatar, LocalDate dateOfBirth, String password) {
         this.id = id;
-        this.fullName = fullName;
+        this.fullname = fullname;
         this.email = email;
         this.avatar = avatar;
-        this.time = time;
+        this.dateOfBirth = dateOfBirth;
         this.password = password;
     }
 
@@ -30,12 +30,12 @@ public class User {
         this.id = id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public String getEmail() {
@@ -54,12 +54,12 @@ public class User {
         this.avatar = avatar;
     }
 
-    public LocalDateTime getTime() {
-        return time;
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setTime(LocalDateTime time) {
-        this.time = time;
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public String getPassword() {
