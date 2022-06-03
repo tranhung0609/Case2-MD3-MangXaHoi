@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FriendShipServiceImpl implements FriendShipService {
-    UserServiceImpl userService = new UserServiceImpl();
     StatusServiceImpl statusService = new StatusServiceImpl();
+    UserServiceImpl userService = new UserServiceImpl();
 
     static String jdbcURL = "jdbc:mysql://localhost:3306/social_network_case_md3?useSSL=false";
     static String jdbcUsername = "root";
@@ -67,6 +67,20 @@ public class FriendShipServiceImpl implements FriendShipService {
             }
         }
         return friendShips;
+    }
+
+    public List<FriendShip> findMutualByUserId(int userId1, int userId2) {
+        List<FriendShip> mutualFriends = new ArrayList<>();
+        List<FriendShip> friendShips1 = findByUserId(userId1);
+        List<FriendShip> friendShips2 = findByUserId(userId2);
+        for (FriendShip f1 : friendShips1) {
+            for (FriendShip f2 : friendShips2) {
+                if (f1.getId() == f2.getId()) {
+                    mutualFriends.add(f1);
+                }
+            }
+        }
+        return mutualFriends;
     }
 
     @Override

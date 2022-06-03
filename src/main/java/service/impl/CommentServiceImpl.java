@@ -1,14 +1,21 @@
 package service.impl;
 
 import model.Comment;
+import model.User;
 import service.CommentService;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommentServiceImpl implements CommentService {
+    PostServiceImpl postService = new PostServiceImpl();
+    UserServiceImpl userService = new UserServiceImpl();
+
     protected Connection getConnection() {
         Connection connection = null;
         try {
@@ -22,6 +29,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> findAll() {
+
         return null;
     }
 
@@ -43,6 +51,28 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public boolean delete(int id) throws SQLException {
         return false;
+    }
+
+    public List<Comment> findByPostId(int postId) {
+        List<Comment> comments = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement("SELECT * FROM comment WHERE post_id = ?")) {
+            preparedStatement.setInt(1, postId);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int userId = rs.getInt("user_id");
+                String content = rs.getString("content");
+                String time = rs.getString("time");
+                LocalDateTime localDateTime = LocalDateTime.parse(time,
+                        DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
+                comments.add(new Comment(id, postId , userService.findById(userId), localDateTime, content));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return comments;
     }
 
     @Override

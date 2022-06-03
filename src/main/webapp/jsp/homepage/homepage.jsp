@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: ACER
@@ -5,7 +6,8 @@
   Time: 8:59 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %><!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -104,7 +106,7 @@
                 <img class="add-story" src="images/upload.png" alt="">
                 <p>Post Story</p>
             </div>
-            <div class="story story2" >
+            <div class="story story2">
                 <img src="../../image/anhson.jpg" alt="">
                 <!--                    <video></video>-->
                 <!--                    <iframe width="560" height="315" src="https://www.youtube.com/embed/Khz3jy6dzw0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
@@ -160,7 +162,7 @@
             <div class="status-field">
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis dolores praesentium dicta
                     laborum nihil accusantium odit laboriosam, sed sit autem! <a
-                            href="#">#This_Post_is_Better!!!!</a> </p>
+                            href="#">#This_Post_is_Better!!!!</a></p>
                 <img src="images/feed-image-1.png" alt="">
 
             </div>
@@ -191,7 +193,7 @@
             <div class="status-field">
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis dolores praesentium dicta
                     laborum nihil accusantium odit laboriosam, sed sit autem! <a
-                            href="#">#This_Post_is_Bigger!!!!</a> </p>
+                            href="#">#This_Post_is_Bigger!!!!</a></p>
                 <img src="images/feed-image-2.png" alt="">
 
             </div>
@@ -222,7 +224,7 @@
             <div class="status-field">
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis dolores praesentium dicta
                     laborum nihil accusantium odit laboriosam, sed sit autem! <a
-                            href="#">#This_Post_is_faster!!!!</a> </p>
+                            href="#">#This_Post_is_faster!!!!</a></p>
                 <img src="images/feed-image-3.png" alt="">
 
             </div>
@@ -253,7 +255,7 @@
             <div class="status-field">
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis dolores praesentium dicta
                     laborum nihil accusantium odit laboriosam, sed sit autem! <a
-                            href="#">#This_Post_is_perfect!!!!</a> </p>
+                            href="#">#This_Post_is_perfect!!!!</a></p>
                 <img src="images/feed-image-4.png" alt="">
 
             </div>
@@ -313,26 +315,26 @@
         <!--                <h4>Conversation</h4>-->
         <!--                <a href="">Hide Chat</a>-->
         <!--            </div>-->
-
-        <div class="online-list">
-            <div class="online">
-                <img src="images/member-1.png" alt="">
+        <c:forEach items="${otherUsers}" var="user">
+            <div class="online-list">
+                <div class="online">
+                    <img src="${user.avatar}" alt="Ảnh Đại Diện">
+                </div>
+                <p><a href="/users?action=profile&id=${user.id}">${user.fullName}</a></p>
             </div>
-            <p>Alison Mina</p>
-        </div>
-
-        <div class="online-list">
-            <div class="online">
-                <img src="images/member-2.png" alt="">
-            </div>
-            <p>Jackson Aston</p>
-        </div>
-        <div class="online-list">
-            <div class="online">
-                <img src="images/member-3.png" alt="">
-            </div>
-            <p>Samona Rose</p>
-        </div>
+        </c:forEach>
+<%--        <div class="online-list">--%>
+<%--            <div class="online">--%>
+<%--                <img src="images/member-2.png" alt="">--%>
+<%--            </div>--%>
+<%--            <p>Jackson Aston</p>--%>
+<%--        </div>--%>
+<%--        <div class="online-list">--%>
+<%--            <div class="online">--%>
+<%--                <img src="images/member-3.png" alt="">--%>
+<%--            </div>--%>
+<%--            <p>Samona Rose</p>--%>
+<%--        </div>--%>
     </div>
 </div>
 <footer id="footer">
