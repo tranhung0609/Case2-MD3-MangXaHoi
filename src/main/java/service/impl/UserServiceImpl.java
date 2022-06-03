@@ -1,5 +1,6 @@
 package service.impl;
 
+import model.FriendShip;
 import model.Like;
 import model.User;
 import service.UserService;
@@ -81,7 +82,7 @@ public class UserServiceImpl implements UserService {
         List<User> users = new ArrayList<>();
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM user WHERE id <> ?")) {
+                     connection.prepareStatement("SELECT * FROM user WHERE id <> ? ")) {
             preparedStatement.setInt(1, userId);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -98,6 +99,7 @@ public class UserServiceImpl implements UserService {
         }
         return users;
     }
+
     @Override
     public boolean delete(int id) throws SQLException {
         return false;

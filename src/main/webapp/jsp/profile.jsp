@@ -21,11 +21,18 @@
 
 <body>
 <nav class="navbar">
-    <div class="nav-left"><img class="logo" src="images/logo.png" alt="">
+    <%--    <div class="nav-left"><img class="logo" src="images/logo.png" alt="">--%>
+    <div class="nav-left"><a href="jsp/homepage/homepage.jsp"><img class="logo" src="../../image/logofakebook.jpg"
+                                                                   alt="logoFB"></a>
         <ul class="navlogo">
-            <li><img src="images/notification.png"></li>
-            <li><img src="images/inbox.png"></li>
-            <li><img src="images/video.png"></li>
+            <p style="color: #0a0a0a">
+                <a style="color: #0a0a0a" href="/users?action=my-profile&id=${currentUser.id}">
+                    ${currentUser.fullName}
+                </a>
+            </p>
+            <%--            <li><img src="images/notification.png"></li>--%>
+            <%--            <li><img src="images/inbox.png"></li>--%>
+            <%--            <li><img src="images/video.png"></li>--%>
         </ul>
     </div>
     <div class="nav-right">
@@ -93,7 +100,7 @@
             <img src="${user.avatar}" class="dashboard-img" alt="avt">
             <div class="left-dashboard-info">
                 <h3>${user.fullName}</h3>
-                <p>${friendShips.size()} friends - ${mutualFriends.size()} mutuals</p>
+                <p>${friends.size()} friends - ${mutualFriends.size()} mutuals</p>
                 <div class="mutual-friend-images">
                     <img src="images/member-1.png" alt="">
                     <img src="images/member-2.png" alt="">
@@ -104,11 +111,14 @@
         </div>
         <div class="right-dashboard-info">
             <div class="right-dashboard-info-top">
-
-                <button type="button"><i class="fas fa-user-plus"></i> Friends</button>
+                <form action="/users" method="post">
+                    <input type="hidden" name="action" value="send-invitation">
+                    <input type="hidden" name="id" value="${user.id}">
+                    <button><i class="fas fa-user-plus"></i> Friends</button>
+                </form>
                 <button type="button"><i class="far fa-envelope"></i> messages</button>
             </div>
-            <div class="right-div-single-logo"> <a href="#"> <i class="fas fa-ellipsis-h"></i></a></div>
+            <div class="right-div-single-logo"><a href="#"> <i class="fas fa-ellipsis-h"></i></a></div>
         </div>
     </div>
 
@@ -167,44 +177,29 @@
 
                 <div class="gallery-photos">
                     <div class="gallery-photos-rowFirst">
-                        <c:forEach items="${friendShips}" var="friend">
-                        <div class="first-friend">
-                            <img src="${friend.avatar}" alt="avt">
-                            <p>${friend.fullName}</p>
-                        </div>
+                        <c:forEach items="${friends}" var="friend">
+                            <div class="first-friend">
+                                <img src="${friend.avatar}" alt="avt">
+                                <p><a href="/users?action=profile&id=${friend.id}">${friend.fullName}</a></p>
+                            </div>
                         </c:forEach>
-                        <div class="second-friend">
-                            <img src="images/member-2.png" alt="">
-                            <p>Joseph N</p>
-                        </div>
-                        <div class="third-friend">
-                            <img src="images/member-3.png" alt="">
-                            <p>Blondie K</p>
-                        </div>
-                        <div class="forth-friend">
-                            <img src="images/member-4.png" alt="">
-                            <p>Jonathon J</p>
-                        </div>
-                        <div class="fifth-friend">
-                            <img src="images/member-5.png" alt="">
-                            <p>Mark K</p>
-                        </div>
-                        <div class="sixth-friend">
-                            <img src="images/member-6.png" alt="">
-                            <p>Emilia M</p>
-                        </div>
-                        <div class="seventh-friend">
-                            <img src="images/member-7.png" alt="">
-                            <p>Max P</p>
-                        </div>
-                        <div class="eighth-friend">
-                            <img src="images/member-8.png" alt="">
-                            <p>Layla M</p>
-                        </div>
-                        <div class="ninth-friend">
-                            <img src="images/member-9.png" alt="">
-                            <p>Edward M</p>
-                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="left-profile-sidebar-top gallery">
+                <div class="heading-link profile-heading-link">
+                    <h4>Friends</h4>
+                    <a href="">Mutual Friends</a>
+                </div>
+
+                <div class="gallery-photos">
+                    <div class="gallery-photos-rowFirst">
+                        <c:forEach items="${mutualFriends}" var="friend">
+                            <div class="first-friend">
+                                <img src="${friend.avatar}" alt="avt">
+                                <p><a href="/users?action=profile&id=${friend.id}">${friend.fullName}</a></p>
+                            </div>
+                        </c:forEach>
                     </div>
                 </div>
             </div>

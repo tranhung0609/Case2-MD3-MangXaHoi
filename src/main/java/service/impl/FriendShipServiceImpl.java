@@ -59,28 +59,83 @@ public class FriendShipServiceImpl implements FriendShipService {
         }
     }
 
-    public List<FriendShip> findByUserId(int userId) {
+    public List<User> findFriendRequests(int userId) {
+        List<User> friendRequests = new ArrayList<>();
         List<FriendShip> friendShips = findAll();
         for (FriendShip f : friendShips) {
-            if (f.getUser1().getId() == userId || f.getUser2().getId() == userId) {
-                friendShips.add(f);
+            if (f.getStatus().getId() == 2 && f.getUser2().getId() == userId) {
+                friendRequests.add(f.getUser1());
             }
         }
-        return friendShips;
+        return friendRequests;
     }
 
-    public List<FriendShip> findMutualByUserId(int userId1, int userId2) {
-        List<FriendShip> mutualFriends = new ArrayList<>();
-        List<FriendShip> friendShips1 = findByUserId(userId1);
-        List<FriendShip> friendShips2 = findByUserId(userId2);
-        for (FriendShip f1 : friendShips1) {
-            for (FriendShip f2 : friendShips2) {
-                if (f1.getId() == f2.getId()) {
-                    mutualFriends.add(f1);
+//    public int getRelationship(int userId1, int userId2) {
+//        int count = 0;
+//        List<FriendShip> friendShips = findAll();
+//        for (FriendShip f : friendShips) {
+//            if (f.getUser1().getId() == userId1){
+//
+//            }
+//        }
+//    }
+
+//    public int sendInvitation(int userId) {
+//        int count = 0;
+//        List<User> users = findFriendsByUserId(UserServiceImpl.currentUsers.getId());
+//        for (User u : users) {
+//            if (u.getId() == userId){
+//
+//            }
+//        }
+//    }
+
+    public List<User> findFriendsByUserId(int userId) {
+        List<User> users = new ArrayList<>();
+        List<FriendShip> friendShips = findAll();
+        for (FriendShip f : friendShips) {
+            if (f.getStatus().getId() == 1) {
+                if (f.getUser1().getId() == userId) {
+                    users.add(f.getUser2());
+                } else if (f.getUser2().getId() == userId) {
+                    users.add(f.getUser1());
+                }
+            }
+        }
+        return users;
+    }
+
+    public List<User> findMutualByUserId(int userId1, int userId2) {
+        List<User> mutualFriends = new ArrayList<>();
+        List<User> users1 = findFriendsByUserId(userId1);
+        List<User> users2 = findFriendsByUserId(userId2);
+        for (User u1 : users1) {
+            for (User u2 : users2) {
+                if (u1.getId() == u2.getId()) {
+                    mutualFriends.add(u1);
                 }
             }
         }
         return mutualFriends;
+    }
+
+    public List<User> findAllOtherFriends(int userId) {
+        List<User> otherFriends = new ArrayList<>();
+        List<User> allUsers = userService.findAllOtherUser(UserServiceImpl.currentUsers.getId());
+        List<User> friends = findFriendsByUserId(userId);
+        for (User a : allUsers) {
+            int count = 0;
+            for (User f : friends) {
+                if (a.getId() == f.getId()) {
+                    count = 1;
+                    break;
+                }
+            }
+            if (count == 0){
+                otherFriends.add(a);
+            }
+        }
+        return otherFriends;
     }
 
     @Override
@@ -102,7 +157,7 @@ public class FriendShipServiceImpl implements FriendShipService {
 
     public void updateStatus(int statusId) {
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE friend_ship SET status_id = ?)")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE friend_ship SET status_id = ? WHERE user_id_1 = ? AND user_id_2 = ?)")) {
             preparedStatement.setInt(1, statusId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

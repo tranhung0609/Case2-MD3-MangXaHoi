@@ -21,21 +21,28 @@
 
 <body>
 <nav class="navbar">
-    <div class="nav-left"><img class="logo" src="../../image/logofakebook.jpg" alt="">
+    <div class="nav-left"><a href="jsp/homepage/homepage.jsp"><img class="logo" src="../../image/logofakebook.jpg"
+                                                                   alt=""></a>
         <ul class="navlogo">
-            <li><img src="images/notification.png"></li>
-            <li><img src="images/inbox.png"></li>
-            <li><img src="images/video.png"></li>
+            <p style="color: #0a0a0a"><a style="color: #0a0a0a"
+                                         href="/users?action=my-profile&id=${currentUser.id}">${currentUser.fullName}</a>
+            </p>
+            <%--            <li><img src="images/notification.png"></li>--%>
+            <%--            <li><img src="images/inbox.png"></li>--%>
+            <%--            <li><img src="images/video.png"></li>--%>
         </ul>
+        <div class="profile-image online" onclick="UserSettingToggle()">
+            <img src="images/profile-pic.png" alt="">
+        </div>
     </div>
     <div class="nav-right">
         <div class="search-box">
             <img src="images/search.png" alt="">
             <input type="text" placeholder="Search">
         </div>
-        <div class="profile-image online" onclick="UserSettingToggle()">
-            <img src="images/profile-pic.png" alt="">
-        </div>
+        <%--        <div class="profile-image online" onclick="UserSettingToggle()">--%>
+        <%--            <img src="images/profile-pic.png" alt="">--%>
+        <%--        </div>--%>
 
     </div>
     <div class="user-settings">
@@ -315,26 +322,46 @@
         <!--                <h4>Conversation</h4>-->
         <!--                <a href="">Hide Chat</a>-->
         <!--            </div>-->
-        <c:forEach items="${otherUsers}" var="user">
-            <div class="online-list">
-                <div class="online">
-                    <img src="${user.avatar}" alt="Ảnh Đại Diện">
-                </div>
-                <p><a href="/users?action=profile&id=${user.id}">${user.fullName}</a></p>
+        <div>
+            <div class="heading-link profile-heading-link">
+                <h4>Suggestions for making friends</h4>
             </div>
-        </c:forEach>
-<%--        <div class="online-list">--%>
-<%--            <div class="online">--%>
-<%--                <img src="images/member-2.png" alt="">--%>
-<%--            </div>--%>
-<%--            <p>Jackson Aston</p>--%>
-<%--        </div>--%>
-<%--        <div class="online-list">--%>
-<%--            <div class="online">--%>
-<%--                <img src="images/member-3.png" alt="">--%>
-<%--            </div>--%>
-<%--            <p>Samona Rose</p>--%>
-<%--        </div>--%>
+            <c:forEach items="${otherUsers}" var="user">
+                <div class="online-list">
+                    <div class="online">
+                        <img src="${user.avatar}" alt="avt">
+                    </div>
+                    <p><a href="/users?action=profile&id=${user.id}">${user.fullName}</a></p>
+                </div>
+            </c:forEach>
+        </div>
+        <%--        <div class="online-list">--%>
+        <%--            <div class="online">--%>
+        <%--                <img src="images/member-2.png" alt="">--%>
+        <%--            </div>--%>
+        <%--            <p>Jackson Aston</p>--%>
+        <%--        </div>--%>
+        <%--        <div class="online-list">--%>
+        <%--            <div class="online">--%>
+        <%--                <img src="images/member-3.png" alt="">--%>
+        <%--            </div>--%>
+        <%--            <p>Samona Rose</p>--%>
+        <%--        </div>--%>
+        <div>
+            <div class="heading-link profile-heading-link">
+                <h4>Friend Request</h4>
+            </div>
+            <c:forEach items="${friendRequests}" var="user">
+                <div class="online-list">
+                    <div class="online">
+                        <img src="${user.avatar}" alt="avt">
+                    </div>
+                    <p><a href="/users?action=profile&id=${user.id}">${user.fullName}</a></p>
+                    <form action="/users?action=make-friend&id=${user.id}" method="post"><button>Accept</button></form>
+                    <form action="/users?action=delete-request&id=${user.id}" method="post"><button>Delete</button></form>
+                </div>
+            </c:forEach>
+        </div>
     </div>
 </div>
 <footer id="footer">

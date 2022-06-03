@@ -3,6 +3,7 @@ package controller;
 import model.FriendShip;
 import model.User;
 import service.impl.FriendShipServiceImpl;
+import service.impl.StatusServiceImpl;
 import service.impl.UserServiceImpl;
 
 import javax.servlet.*;
@@ -18,6 +19,7 @@ import java.util.List;
 public class UserServlet extends HttpServlet {
     UserServiceImpl userService = new UserServiceImpl();
     FriendShipServiceImpl friendShipService = new FriendShipServiceImpl();
+    StatusServiceImpl statusService = new StatusServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,30 +30,27 @@ public class UserServlet extends HttpServlet {
             action = "";
         }
         switch (action){
-            case "profile":
+            case "my-profile":
                 showFormMyProfile(request,response);
                 break;
-            case "my-profile":
+            case "profile":
                 showFormProfile(request,response);
                 break;
-            case "login":
-                showFormLogin(request,response);
-                break;
-            case "register":
-                showRegister(request,response);
-                break;
             default:
-                homePage(request,response);
-                break;
+                showFormLogin(request, response);
         }
+    }
+
+    private void showFormLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("jsp/login-register/login.jsp").forward(request,response);
     }
 
     private void showFormMyProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int currentUsersId = UserServiceImpl.currentUsers.getId();
         User currentUser = userService.findById(currentUsersId);
         request.setAttribute("currentUser", currentUser);
-        List<FriendShip> friendShips = friendShipService.findByUserId(currentUsersId);
-        request.setAttribute("friendShips", friendShips);
+        List<User> myFriends = friendShipService.findFriendsByUserId(currentUsersId);
+        request.setAttribute("myFriends", myFriends);
         request.getRequestDispatcher("jsp/my-profile.jsp").forward(request,response);
     }
 
@@ -59,26 +58,11 @@ public class UserServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         User user = userService.findById(id);
         request.setAttribute("user", user);
-        List<FriendShip> friendShips = friendShipService.findByUserId(id);
-        request.setAttribute("friendShips", friendShips);
-        List<FriendShip> mutualFriends = friendShipService.findMutualByUserId(user.getId(), UserServiceImpl.currentUsers.getId());
+        List<User> friends = friendShipService.findFriendsByUserId(id);
+        request.setAttribute("friends", friends);
+        List<User> mutualFriends = friendShipService.findMutualByUserId(user.getId(), UserServiceImpl.currentUsers.getId());
         request.setAttribute("mutualFriends", mutualFriends);
         request.getRequestDispatcher("jsp/profile.jsp").forward(request,response);
-    }
-
-    private void showRegister(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("user/register.jsp");
-        requestDispatcher.forward(request,response);
-    }
-
-    private void homePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/login-register/login.jsp");
-        requestDispatcher.forward(request,response);
-    }
-
-    private void showFormLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("user/login.jsp");
-        requestDispatcher.forward(request,response);
     }
 
     @Override
@@ -91,6 +75,13 @@ public class UserServlet extends HttpServlet {
             action = "";
         }
         switch (action) {
+            case "send-invitation":
+                try {
+                    sendInvitation(request,response);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
             case "login":
                 login(request, response, session);
                 break;
@@ -101,7 +92,29 @@ public class UserServlet extends HttpServlet {
                     e.printStackTrace();
                 }
                 break;
+            case "make-friend":
+                makeFriend(request, response);
+                break;
+            case "delete-request":
+                deleteRequest(request, response);
+                break;
         }
+    }
+
+    private void makeFriend(HttpServletRequest request, HttpServletResponse response) {
+        int userId = Integer.parseInt(request.getParameter("id"));
+
+    }
+
+    private void deleteRequest(HttpServletRequest request, HttpServletResponse response) {
+        int userId = Integer.parseInt(request.getParameter("id"));
+    }
+
+    private void sendInvitation(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        int userId = Integer.parseInt(request.getParameter("id"));
+        FriendShip friendShip = new FriendShip(UserServiceImpl.currentUsers, userService.findById(userId), statusService.findById(2));
+        friendShipService.add(friendShip);
+        response.sendRedirect("/users?action=profile");
     }
 
     private void register(HttpServletRequest request, HttpServletResponse response) throws ParseException, SQLException, ServletException, IOException {
@@ -126,9 +139,11 @@ public class UserServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         if (userService.checkLogin(email,password)){
-            session.setAttribute("user", UserServiceImpl.currentUsers);
-            List<User> otherUsers = userService.findAllOtherUser(UserServiceImpl.currentUsers.getId());
+            session.setAttribute("currentUser", UserServiceImpl.currentUsers);
+            List<User> otherUsers = friendShipService.findAllOtherFriends(UserServiceImpl.currentUsers.getId());
             session.setAttribute("otherUsers", otherUsers);
+            List<User> friendRequests = friendShipService.findFriendRequests(UserServiceImpl.currentUsers.getId());
+            session.setAttribute("friendRequests", friendRequests);
             requestDispatcher.forward(request,response);
         }else {
             response.sendRedirect("/users?action=login");

@@ -9,6 +9,12 @@ public class FriendShip {
     public FriendShip() {
     }
 
+    public FriendShip(User user1, User user2, Status status) {
+        this.user1 = user1;
+        this.user2 = user2;
+        this.status = status;
+    }
+
     public FriendShip(int id, User user1, User user2, Status status) {
         this.id = id;
         this.user1 = user1;
