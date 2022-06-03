@@ -7,7 +7,7 @@ public class Post {
     private int id;
     private User user;
     private Comment comment;
-    private LocalDateTime time;
+    private String time;
     private int likeCount;
     private ViewMode viewMode;
     private String image;
@@ -17,7 +17,17 @@ public class Post {
     public Post() {
     }
 
-    public Post(int id, User user, Comment comment, LocalDateTime time, int likeCount, ViewMode viewMode, String image, String content) {
+    public Post(User user, Comment comment, String time, ViewMode viewMode, String image, String content) {
+        this.user = user;
+        this.comment = comment;
+        this.time = time;
+        this.likeCount = likeCount;
+        this.viewMode = viewMode;
+        this.image = image;
+        this.content = content;
+    }
+
+    public Post(int id, User user, Comment comment, String time, int likeCount, ViewMode viewMode, String image, String content) {
         this.id = id;
         this.user = user;
         this.comment = comment;
@@ -28,7 +38,7 @@ public class Post {
         this.content = content;
     }
 
-    public Post(int id, User user, Comment comment, LocalDateTime time, int likeCount, ViewMode viewMode, String image, String content, List<Comment> comments) {
+    public Post(int id, User user, Comment comment, String time, int likeCount, ViewMode viewMode, String image, String content, List<Comment> comments) {
         this.id = id;
         this.user = user;
         this.comment = comment;
@@ -64,11 +74,11 @@ public class Post {
         this.comment = comment;
     }
 
-    public LocalDateTime getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(LocalDateTime time) {
+    public void setTime(String time) {
         this.time = time;
     }
 

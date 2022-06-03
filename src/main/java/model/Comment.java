@@ -6,14 +6,19 @@ public class Comment {
     private int id;
     private int postId;
     private User user;
-    private LocalDateTime time;
+    private String time;
     private String content;
 
     public Comment() {
 
     }
 
-    public Comment(int id, int postId, User user, LocalDateTime time, String content) {
+    public Comment(String time, String content) {
+        this.time = time;
+        this.content = content;
+    }
+
+    public Comment(int id, int postId, User user, String time, String content) {
         this.id = id;
         this.postId = postId;
         this.user = user;
@@ -45,11 +50,11 @@ public class Comment {
         this.user = user;
     }
 
-    public LocalDateTime getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(LocalDateTime time) {
+    public void setTime(String time) {
         this.time = time;
     }
 

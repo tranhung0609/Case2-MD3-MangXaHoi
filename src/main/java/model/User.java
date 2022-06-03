@@ -9,14 +9,14 @@ public class User {
     private String fullName;
     private String email;
     private String avatar;
-    private Date dateOfBirth;
+    private String dateOfBirth;
     private String password;
     List<FriendShip> friendShips;
 
     public User() {
     }
 
-    public User(int id, String fullName, String email, String avatar, Date dateOfBirth, String password) {
+    public User(int id, String fullName, String email, String avatar, String dateOfBirth, String password) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
@@ -33,7 +33,7 @@ public class User {
         this.friendShips = friendShips;
     }
 
-    public User(int id, String fullName, String email, String avatar, Date dateOfBirth, String password, List<FriendShip> friendShips) {
+    public User(int id, String fullName, String email, String avatar, String dateOfBirth, String password, List<FriendShip> friendShips) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
@@ -75,11 +75,11 @@ public class User {
         this.avatar = avatar;
     }
 
-    public Date getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

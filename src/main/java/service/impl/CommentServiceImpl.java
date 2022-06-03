@@ -44,10 +44,8 @@ public class CommentServiceImpl implements CommentService {
                 int postId = rs.getInt("post_id");
                 int userId = rs.getInt("user_id");
                 String time = rs.getString("time");
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDateTime dateTime = LocalDateTime.parse(time, formatter);
                 String content = rs.getString("content");
-                comments.add(new Comment(id, postId, userService.findById(userId), dateTime, content));
+                comments.add(new Comment(id, postId, userService.findById(userId), time, content));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -61,10 +59,7 @@ public class CommentServiceImpl implements CommentService {
              PreparedStatement preparedStatement = connection.prepareStatement("insert into comment(post_id,user_id,time,content) values (?,?,?,?)")) {
             preparedStatement.setInt(1, comment.getPostId());
             preparedStatement.setInt(2, comment.getUser().getId());
-            DateTimeFormatter dateFormatter = DateTimeFormatter
-                    .ofPattern("yyyy/MM/dd HH:mm:ss");
-            String time = comment.getTime().format(dateFormatter);
-            preparedStatement.setString(3, time);
+            preparedStatement.setString(3, comment.getTime());
             preparedStatement.setString(4, comment.getContent());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -111,10 +106,8 @@ public class CommentServiceImpl implements CommentService {
                 int id = rs.getInt("id");
                 int userId = rs.getInt("user_id");
                 String time = rs.getString("time");
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDateTime dateTime = LocalDateTime.parse(time, formatter);
                 String content = rs.getString("content");
-                comments.add(new Comment(id, postId, userService.findById(userId), dateTime, content));
+                comments.add(new Comment(id, postId, userService.findById(userId), time, content));
             }
         } catch (SQLException e) {
             e.printStackTrace();

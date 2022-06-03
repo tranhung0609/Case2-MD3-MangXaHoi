@@ -41,14 +41,12 @@ public class PostServiceImpl implements PostService {
                 int userId = rs.getInt("user_id");
                 int commentId = rs.getInt("comment_id");
                 String time = rs.getString("time");
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDateTime dateTime = LocalDateTime.parse(time, formatter);
                 int likeCount = rs.getInt("like_Count");
                 int viewModeId= rs.getInt("view_mode_id");
                 String image = rs.getString("image");
                 String content = rs.getString("content");
                 posts.add(new Post(id,userService.findById(userId),
-                        commentService.findById(commentId),dateTime,likeCount,viewModeService.findById(viewModeId),image,content));
+                        commentService.findById(commentId),time,likeCount,viewModeService.findById(viewModeId),image,content));
 
             }
         } catch (SQLException e) {
@@ -63,10 +61,7 @@ public class PostServiceImpl implements PostService {
              PreparedStatement preparedStatement = connection.prepareStatement("insert into posts(user_id,comment_id,time,like_count,view_mode_id,image,content) values (?,?,?,?,?,?,?)")) {
             preparedStatement.setInt(1, post.getUser().getId());
             preparedStatement.setInt(2,post.getComment().getId());
-            DateTimeFormatter dateFormatter = DateTimeFormatter
-                    .ofPattern("yyyy/MM/dd HH:mm:ss");
-            String time = post.getTime().format(dateFormatter);
-            preparedStatement.setString(3, time);
+            preparedStatement.setString(3, post.getTime());
             preparedStatement.setInt(4,post.getLikeCount());
             preparedStatement.setInt(5,post.getViewMode().getId());
             preparedStatement.setString(6,post.getImage());

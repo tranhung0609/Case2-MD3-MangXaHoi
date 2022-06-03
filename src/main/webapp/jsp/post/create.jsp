@@ -14,7 +14,6 @@
 <form method="post">
     <input type="text" name="userId">
     <input type="text" name="commentId">
-    <input type="text" name="likeCount">
     <input type="text" name="viewModeId">
     <input type="text" name="image">
     <input type="text" name="content">

@@ -35,11 +35,10 @@ public class UserServiceImpl implements UserService {
                 String email = rs.getString("email");
                 String avatar = rs.getString("avatar");
                 String date_of_birth = rs.getString("date_of_birth");
-                Date date = (Date) new SimpleDateFormat("dd/MM/yyyy").parse(date_of_birth);
                 String password = rs.getString("password");
-                users.add(new User(id, fullName, email, avatar, date, password));
+                users.add(new User(id, fullName, email, avatar, date_of_birth, password));
             }
-        } catch (SQLException | ParseException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return users;

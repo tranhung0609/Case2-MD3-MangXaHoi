@@ -26,6 +26,8 @@ public class PostServlet extends HttpServlet {
     ViewModeServiceImpl viewModeService = new ViewModeServiceImpl();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
         String action = request.getParameter("action");
         if (action == null) {
             action = "";
@@ -57,6 +59,8 @@ public class PostServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
         String action = request.getParameter("action");
         if (action == null) {
             action = "";
@@ -74,20 +78,19 @@ public class PostServlet extends HttpServlet {
     }
 
     private void post(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-
         int userId = Integer.parseInt(request.getParameter("userId"));
         User user = userService.findById(userId);
         int commentId = Integer.parseInt(request.getParameter("commentId"));
         Comment comment = commentService.findById(commentId);
-        String time = request.getParameter("time");
-        LocalDateTime localDateTime = LocalDateTime.parse(time);
-        localDateTime = LocalDateTime.now();
-        int likeCount = Integer.parseInt(request.getParameter("likeCount"));
+        LocalDateTime localDateTime = LocalDateTime.now();
+        DateTimeFormatter dateFormatter = DateTimeFormatter
+                .ofPattern("dd/MM/yyyy HH:mm");
+        String time = localDateTime.format(dateFormatter);
         int viewModeId = Integer.parseInt(request.getParameter("viewModeId"));
         ViewMode viewMode = viewModeService.findById(viewModeId);
         String image = request.getParameter("image");
         String content = request.getParameter("content");
-        postService.add(new Post(0,user,comment,localDateTime,likeCount,viewMode,image,content));
+        postService.add(new Post(user,comment,time,viewMode,image,content));
         response.sendRedirect("/posts");
     }
 }
