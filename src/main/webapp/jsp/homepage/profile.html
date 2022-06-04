@@ -6,13 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../css/homepage.css">
-    <title>Profle - Socialbook</title>
+    <title>FakeBook</title>
     <script src="https://kit.fontawesome.com/ef7e2b893b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
+
 </head>
 
 <body>
     <nav class="navbar">
-        <div class="nav-left"><img class="logo" src="images/logo.png" alt="">
+        <div class="nav-left">
+            <a href="#"><img class="logo" src="../../image/logofakebook.jpg"></a>
+<!--            <img class="logo" src="../../image/logofakebook.jpg">-->
             <ul class="navlogo">
                 <li><img src="images/notification.png"></li>
                 <li><img src="images/inbox.png"></li>
@@ -43,29 +47,29 @@
                 </div>
             </div>
             <hr>
-            <div class="user-profile">
-                <img src="images/feedback.png" alt="">
-                <div>
-                    <p> Give Feedback</p>
-                    <a href="#">Help us to improve</a>
-                </div>
-            </div>
+<!--            <div class="user-profile">-->
+<!--                <img src="images/feedback.png" alt="">-->
+<!--                <div>-->
+<!--                    <p> Give Feedback</p>-->
+<!--                    <a href="#">Help us to improve</a>-->
+<!--                </div>-->
+<!--            </div>-->
             <hr>
             <div class="settings-links">
                 <img src="images/setting.png" alt="" class="settings-icon">
-                <a href="#">Settings & Privary <img src="images/arrow.png" alt=""></a>
+                <a href="#">Settings <img src="images/arrow.png" alt=""></a>
             </div>
 
-            <div class="settings-links">
-                <img src="images/help.png" alt="" class="settings-icon">
-                <a href="#">Help & Support <img src="images/arrow.png" alt=""></a>
-            </div>
+<!--            <div class="settings-links">-->
+<!--                <img src="images/help.png" alt="" class="settings-icon">-->
+<!--                <a href="#">Help & Support <img src="images/arrow.png" alt=""></a>-->
+<!--            </div>-->
 
-            <div class="settings-links">
-                <img src="images/Display.png" alt="" class="settings-icon">
-                <a href="#">Display & Accessibility <img src="images/arrow.png" alt=""></a>
-            </div>
-
+<!--            <div class="settings-links">-->
+<!--                <img src="images/Display.png" alt="" class="settings-icon">-->
+<!--                <a href="#">Display & Accessibility <img src="images/arrow.png" alt=""></a>-->
+<!--            </div>-->
+<!--TRUYỀN ĐƯỜNG LINK ĐỂ ĐI RA TRANG ĐĂNG NHẬP-->
             <div class="settings-links">
                 <img src="images/logout.png" alt="" class="settings-icon">
                 <a href="#">Logout <img src="images/arrow.png" alt=""></a>
@@ -97,7 +101,7 @@
                 <div class="right-dashboard-info-top">
 
                     <button type="button"><i class="fas fa-user-plus"></i> Friends</button>
-                    <button type="button"><i class="far fa-envelope"></i> messages</button>
+                    <button type="button" style="background-color: #f0f0f0; color: #0a0a0a"><i class="far fa-envelope"></i> messages</button>
                 </div>
                 <div class="right-div-single-logo"> <a href="#"> <i class="fas fa-ellipsis-h"></i></a></div>
             </div>
@@ -108,7 +112,7 @@
             <div class="left-sidebar profile-left-sidebar">
                 <div class="left-profile-sidebar-top">
                     <div class="intro-bio">
-                        <h4>intro</h4>
+                        <h4>Intro</h4>
                         <p>Belive in yourself and you do unbelievable things <i class="far fa-smile-beam"></i></p>
                         <hr>
                     </div>
@@ -213,8 +217,9 @@
                     </div>
 
                     <div class="post-upload-textarea">
-                        <textarea name="" placeholder="What's on your mind, Alex?" id="" cols="30" rows="3"></textarea>
+                        <textarea name="" placeholder="Bạn đang nghĩ gì ? " id="" cols="30" rows="3"></textarea>
                         <div class="add-post-links">
+                            <a href="#" style="width: 30px;">Post</a>
                             <a href="#"><img src="images/live-video.png" alt="">Live Video</a>
                             <a href="#"><img src="images/photo.png" alt="">Photo/Video</a>
                             <a href="#"><img src="images/feeling.png" alt="">Feeling Activity</a>
@@ -245,9 +250,17 @@
                     </div>
                     <div class="post-reaction">
                         <div class="activity-icons">
-                            <div><img src="images/like-blue.png" alt="">120</div>
-                            <div><img src="images/comments.png" alt="">52</div>
-                            <div><img src="images/share.png" alt="">35</div>
+                            <div>
+                                <form action="" id="like-post">
+                                    <button onclick="likePost()" id="like-btn"><i id="likeThumb" class="fa-regular fa-thumbs-up"></i></button>
+                                </form>
+                            </div>
+                            <div>
+                                <form action="" id="comment-post">
+                                    <button onclick="commentPost()" id="comment-btn"><i class="fa-regular fa-comment"></i></button>
+                                </form>
+                            </div>
+<!--                            <div><img src="images/share.png" alt="">35</div>-->
                         </div>
                         <div class="post-profile-picture">
                             <img src="images/profile-pic.png " alt=""> <i class=" fas fa-caret-down"></i>
