@@ -39,14 +39,12 @@ public class PostServiceImpl implements PostService {
                 int userId = rs.getInt("user_id");
                 int commentId = rs.getInt("comment_id");
                 String time = rs.getString("time");
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"); //
-                LocalDateTime dateTime = LocalDateTime.parse(time, formatter);
                 int likeCount = rs.getInt("like_count");
                 int viewModeId = rs.getInt("view_mode_id");
                 String image = rs.getString("image");
                 String content = rs.getString("content");
 
-                posts.add(new Post(id, userService.findById(userId), commentId, dateTime, likeCount, viewModeService.findById(viewModeId), image, content));
+                posts.add(new Post(id, userService.findById(userId), commentId, time, likeCount, viewModeService.findById(viewModeId), image, content));
 
             }
         } catch (SQLException e) {

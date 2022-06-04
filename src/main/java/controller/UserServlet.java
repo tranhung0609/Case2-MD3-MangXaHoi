@@ -15,7 +15,7 @@ import java.text.ParseException;
 import java.util.List;
 
 
-@WebServlet(name = "UserServlet", urlPatterns= "/users")
+@WebServlet(name = "UserServlet", urlPatterns = "/users")
 public class UserServlet extends HttpServlet {
     UserServiceImpl userService = new UserServiceImpl();
     FriendShipServiceImpl friendShipService = new FriendShipServiceImpl();
@@ -26,23 +26,30 @@ public class UserServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("utf-8");
         String action = request.getParameter("action");
-        if (action==null){
+        if (action == null) {
             action = "";
         }
-        switch (action){
+        switch (action) {
             case "my-profile":
-                showFormMyProfile(request,response);
+                showFormMyProfile(request, response);
                 break;
             case "profile":
-                showFormProfile(request,response);
+                showFormProfile(request, response);
+                break;
+            case "homepage":
+                showFormHomePage(request, response);
                 break;
             default:
                 showFormLogin(request, response);
         }
     }
 
+    private void showFormHomePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("jsp/homepage/homepage.jsp").forward(request, response);
+    }
+
     private void showFormLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("jsp/login-register/login.jsp").forward(request,response);
+        request.getRequestDispatcher("jsp/login-register/login.jsp").forward(request, response);
     }
 
     private void showFormMyProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -51,7 +58,7 @@ public class UserServlet extends HttpServlet {
         request.setAttribute("currentUser", currentUser);
         List<User> myFriends = friendShipService.findFriendsByUserId(currentUsersId);
         request.setAttribute("myFriends", myFriends);
-        request.getRequestDispatcher("jsp/my-profile.jsp").forward(request,response);
+        request.getRequestDispatcher("jsp/my-profile.jsp").forward(request, response);
     }
 
     private void showFormProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -62,7 +69,7 @@ public class UserServlet extends HttpServlet {
         request.setAttribute("friends", friends);
         List<User> mutualFriends = friendShipService.findMutualByUserId(user.getId(), UserServiceImpl.currentUsers.getId());
         request.setAttribute("mutualFriends", mutualFriends);
-        request.getRequestDispatcher("jsp/profile.jsp").forward(request,response);
+        request.getRequestDispatcher("jsp/profile.jsp").forward(request, response);
     }
 
     @Override
@@ -75,46 +82,59 @@ public class UserServlet extends HttpServlet {
             action = "";
         }
         switch (action) {
-            case "send-invitation":
-                try {
-                    sendInvitation(request,response);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                break;
+
             case "login":
                 login(request, response, session);
                 break;
             case "register":
                 try {
-                    register(request,response);
+                    register(request, response);
                 } catch (ParseException | SQLException e) {
                     e.printStackTrace();
                 }
                 break;
-            case "make-friend":
-                makeFriend(request, response);
+            case "send-invitation":
+                try {
+                    sendInvitation(request, response);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "accept-request":
+                acceptRequest(request, response, session);
                 break;
             case "delete-request":
-                deleteRequest(request, response);
+                try {
+                    deleteRequest(request, response, session);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 break;
         }
     }
 
-    private void makeFriend(HttpServletRequest request, HttpServletResponse response) {
+    private void acceptRequest(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
         int userId = Integer.parseInt(request.getParameter("id"));
-
+        friendShipService.updateStatus(1, userId, UserServiceImpl.currentUsers.getId());
+        List<User> friendRequests = friendShipService.findFriendRequests(UserServiceImpl.currentUsers.getId());
+        session.setAttribute("friendRequests", friendRequests);
+        response.sendRedirect("/users?action=homepage");
     }
 
-    private void deleteRequest(HttpServletRequest request, HttpServletResponse response) {
+    private void deleteRequest(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException, SQLException {
         int userId = Integer.parseInt(request.getParameter("id"));
+        friendShipService.deleteRequest(userId, UserServiceImpl.currentUsers.getId());
+        List<User> friendRequests = friendShipService.findFriendRequests(UserServiceImpl.currentUsers.getId());
+        session.setAttribute("friendRequests", friendRequests);
+        response.sendRedirect("/users?action=homepage");
     }
 
-    private void sendInvitation(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+    private void sendInvitation(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
         int userId = Integer.parseInt(request.getParameter("id"));
         FriendShip friendShip = new FriendShip(UserServiceImpl.currentUsers, userService.findById(userId), statusService.findById(2));
         friendShipService.add(friendShip);
-        response.sendRedirect("/users?action=profile");
+        request.setAttribute("id", userId);
+        showFormProfile(request, response);
     }
 
     private void register(HttpServletRequest request, HttpServletResponse response) throws ParseException, SQLException, ServletException, IOException {
@@ -124,9 +144,9 @@ public class UserServlet extends HttpServlet {
         String date_of_birth = request.getParameter("date_of_birth");
         String password = request.getParameter("password");
         User user = new User(name, email, avatar, date_of_birth, password);
-        if (userService.checkRegister(user)){
+        if (userService.checkRegister(user)) {
             userService.add(user);
-            request.getRequestDispatcher("jsp/login-register/login.jsp").forward(request,response);
+            request.getRequestDispatcher("jsp/login-register/login.jsp").forward(request, response);
         } else {
             response.sendRedirect("/users?action=register");
         }
@@ -138,14 +158,14 @@ public class UserServlet extends HttpServlet {
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/homepage/homepage.jsp");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        if (userService.checkLogin(email,password)){
+        if (userService.checkLogin(email, password)) {
             session.setAttribute("currentUser", UserServiceImpl.currentUsers);
             List<User> otherUsers = friendShipService.findAllOtherFriends(UserServiceImpl.currentUsers.getId());
             session.setAttribute("otherUsers", otherUsers);
             List<User> friendRequests = friendShipService.findFriendRequests(UserServiceImpl.currentUsers.getId());
             session.setAttribute("friendRequests", friendRequests);
-            requestDispatcher.forward(request,response);
-        }else {
+            requestDispatcher.forward(request, response);
+        } else {
             response.sendRedirect("/users?action=login");
         }
 

@@ -116,12 +116,11 @@
                     <input type="hidden" name="id" value="${user.id}">
                     <button><i class="fas fa-user-plus"></i> Friends</button>
                 </form>
-                <button type="button"><i class="far fa-envelope"></i> messages</button>
+<%--                <button type="button"><i class="far fa-envelope"></i> messages</button>--%>
             </div>
             <div class="right-div-single-logo"><a href="#"> <i class="fas fa-ellipsis-h"></i></a></div>
         </div>
     </div>
-
 
     <div class="container content-profile-container">
         <div class="left-sidebar profile-left-sidebar">

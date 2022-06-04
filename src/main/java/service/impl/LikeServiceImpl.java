@@ -42,9 +42,7 @@ public class LikeServiceImpl implements LikeService {
                 int userId = rs.getInt("user_id");
                 String time = rs.getString("time");
                 int likeStatusId = rs.getInt("statusId");
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDateTime dateTime = LocalDateTime.parse(time, formatter); //chuyển String thành DateTime
-                likes.add(new Like(id, postService.findById(postId), userService.findById(userId), dateTime, likeStatusService.findById(likeStatusId)));
+                likes.add(new Like(id, postService.findById(postId), userService.findById(userId), time, likeStatusService.findById(likeStatusId)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -58,10 +56,7 @@ public class LikeServiceImpl implements LikeService {
              PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO like (post_id, user_id, time, status_id) VALUES (?, ?, ?, ?)")) {
             preparedStatement.setInt(1, like.getPost().getId());
             preparedStatement.setInt(2, like.getUser().getId());
-            DateTimeFormatter dateFormatter = DateTimeFormatter
-                    .ofPattern("yyyy/MM/dd HH:mm:ss");
-            String time = like.getTime().format(dateFormatter); // chuyển DateTime thành string
-            preparedStatement.setString(3,time);
+            preparedStatement.setString(3,like.getTime());
             preparedStatement.setInt(4, like.getLikeStatus().getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

@@ -65,9 +65,7 @@ public class CommentServiceImpl implements CommentService {
                 int userId = rs.getInt("user_id");
                 String content = rs.getString("content");
                 String time = rs.getString("time");
-                LocalDateTime localDateTime = LocalDateTime.parse(time,
-                        DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
-                comments.add(new Comment(id, postId , userService.findById(userId), localDateTime, content));
+                comments.add(new Comment(id, postId , userService.findById(userId), time, content));
             }
         } catch (SQLException e) {
             e.printStackTrace();

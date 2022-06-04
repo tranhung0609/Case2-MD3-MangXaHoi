@@ -155,27 +155,32 @@ public class FriendShipServiceImpl implements FriendShipService {
         return false;
     }
 
-    public void updateStatus(int statusId) {
+    public void updateStatus(int statusId, int userId1, int userId2) {
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE friend_ship SET status_id = ? WHERE user_id_1 = ? AND user_id_2 = ?)")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE friend_ship SET status_id = ? WHERE (user_id_1 = ? AND user_id_2 = ?)")) {
             preparedStatement.setInt(1, statusId);
+            preparedStatement.setInt(2, userId1);
+            preparedStatement.setInt(3, userId2);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
         }
     }
 
-    @Override //hủy kết bạn >>> xóa trong db
+    @Override
     public boolean delete(int id) throws SQLException {
-        boolean rowDeleted = false;
+        return false;
+    }
+
+    public void deleteRequest(int userId1, int userId2) throws SQLException {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("DELETE FROM friend_ship WHERE id = ?")) {
-            preparedStatement.setInt(1, id);
-            rowDeleted = preparedStatement.executeUpdate() > 0;
+                     connection.prepareStatement("DELETE FROM friend_ship WHERE (user_id_1 = ? AND user_id_2 = ?)")) {
+            preparedStatement.setInt(1, userId1);
+            preparedStatement.setInt(2, userId2);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return rowDeleted;
     }
 
     @Override  //lấy list bạn bè theo tên

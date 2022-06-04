@@ -357,7 +357,7 @@
                         <img src="${user.avatar}" alt="avt">
                     </div>
                     <p><a href="/users?action=profile&id=${user.id}">${user.fullName}</a></p>
-                    <form action="/users?action=make-friend&id=${user.id}" method="post"><button>Accept</button></form>
+                    <form action="/users?action=accept-request&id=${user.id}" method="post"><button>Accept</button></form>
                     <form action="/users?action=delete-request&id=${user.id}" method="post"><button>Delete</button></form>
                 </div>
             </c:forEach>

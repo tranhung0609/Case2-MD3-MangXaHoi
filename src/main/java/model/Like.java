@@ -6,13 +6,13 @@ public class Like {
     private int id;
     private Post post;
     private User user;
-    private LocalDateTime time;
+    private String time;
     private LikeStatus likeStatus;
 
     public Like() {
     }
 
-    public Like(int id, Post post, User user, LocalDateTime time, LikeStatus likeStatus) {
+    public Like(int id, Post post, User user, String time, LikeStatus likeStatus) {
         this.id = id;
         this.post = post;
         this.user = user;
@@ -44,11 +44,11 @@ public class Like {
         this.user = user;
     }
 
-    public LocalDateTime getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(LocalDateTime time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
