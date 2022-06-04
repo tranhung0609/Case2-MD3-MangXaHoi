@@ -1,6 +1,6 @@
-var userSettings = document.querySelector(".user-settings");
-var darkBtn = document.getElementById("dark-button");
-var LoadMoreBackground =document.querySelector(".btn-LoadMore");
+let userSettings = document.querySelector(".user-settings");
+let darkBtn = document.getElementById("dark-button");
+let LoadMoreBackground =document.querySelector(".btn-LoadMore");
 function UserSettingToggle(){
     userSettings.classList.toggle("user-setting-showup-toggle");
 }
@@ -18,5 +18,24 @@ function LoadMoreToggle(){
 };
 
 // controls id="myvideo"
-onmouseover="function playyy() {document.getElementById('myvideo').play(); } playyy()"
-onmouseout="function stopp(){document.getElementById('myvideo').pause();} stopp()"
+// onmouseover="function playyy() {document.getElementById('myvideo').play(); } playyy()"
+// onmouseout="function stopp(){document.getElementById('myvideo').pause();} stopp()"
+
+function likePost(){
+    if (document.getElementById('likeThumb').className == "fa-regular fa-thumbs-up"){
+        document.getElementById('likeThumb').className = "fa-solid fa-thumbs-up fa-regular"
+
+    }else {
+        document.getElementById('likeThumb').className = "fa-regular fa-thumbs-up"
+    }
+
+
+}
+
+
+// $(document).ready(function (){
+//     $('#like-btn').click(function () {
+//         $(this).toggle('like-btn');
+//         $(this).children('i').className = 'fa-solid fa-thumbs-up fa-regular';
+//     })
+// });
