@@ -27,12 +27,9 @@
             <p style="color: #0a0a0a"><a style="color: #0a0a0a"
                                          href="/users?action=my-profile&id=${currentUser.id}">${currentUser.fullName}</a>
             </p>
-            <%--            <li><img src="images/notification.png"></li>--%>
-            <%--            <li><img src="images/inbox.png"></li>--%>
-            <%--            <li><img src="images/video.png"></li>--%>
         </ul>
         <div class="profile-image online" onclick="UserSettingToggle()">
-            <img src="images/profile-pic.png" alt="">
+            <img src="${currentUser.avatar}" alt="myAvt">
         </div>
     </div>
     <div class="nav-right">
