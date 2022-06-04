@@ -115,7 +115,6 @@ public class UserServlet extends HttpServlet {
 
     }
 
-
     private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/homepage/homepage.jsp");
         String email = request.getParameter("email");
