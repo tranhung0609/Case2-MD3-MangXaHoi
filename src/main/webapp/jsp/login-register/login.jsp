@@ -17,34 +17,22 @@
 <h2>Sign in/up Form</h2>
 <div class="container" id="container">
     <div class="form-container sign-up-container">
-        <form action="#">
+        <form  action="/users?action=register" method="post">
             <h1>Create Account</h1>
-            <%--      <div class="social-container">--%>
-            <%--        <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>--%>
-            <%--        <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>--%>
-            <%--        <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>--%>
-            <%--      </div>--%>
-            <%--      <span>or use your email for registration</span>--%>
-            <input type="text" placeholder="FullName"/>
-            <input type="date" placeholder="Date-of-birth"/>
-            <input type="email" placeholder="Email"/>
-            <input type="password" placeholder="Password"/>
-            <button>Sign Up</button>
+            <input type="text" placeholder="FullName" name="full_name"/>
+            <input type="email" placeholder="Email" name="email"/>
+            <input type="date" placeholder="date-birth" name="date_of_birth"/>
+            <input type="password" placeholder="Password" name="password"/>
+            <button>Register</button>
         </form>
     </div>
     <div class="form-container sign-in-container">
-        <form action="#">
+        <form action="/users?action=login" method="post">
             <h1>Sign in</h1>
-            <%--      <div class="social-container">--%>
-            <%--        <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>--%>
-            <%--        <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>--%>
-            <%--        <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>--%>
-            <%--      </div>--%>
-            <%--      <span>or use your account</span>--%>
-            <input type="email" placeholder="Email"/>
-            <input type="password" placeholder="Password"/>
+            <input type="email" placeholder="Email" name="email"/>
+            <input type="password" placeholder="Password" name="password"/>
             <a href="#">Forgot your password?</a>
-            <button>Sign In</button>
+            <button>Login</button>
         </form>
     </div>
     <div class="overlay-container">

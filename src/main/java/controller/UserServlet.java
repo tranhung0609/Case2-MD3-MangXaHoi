@@ -1,18 +1,15 @@
 package controller;
 
 import model.User;
-import service.Impl.UserServiceImpl;
+import service.impl.UserServiceImpl;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,30 +24,38 @@ public class UserServlet extends HttpServlet {
             action = "";
         }
         switch (action){
-            case "login":
-                showFormLogin(request,response);
-                break;
             case "register":
                 showRegister(request,response);
                 break;
+            case "edit":
+                showFormEdit(request,response);
+                break;
             default:
-                homePage(request,response);
+                showFormLogin(request,response);
                 break;
         }
     }
 
+    private void showFormEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("edit.jsp");
+        int id = Integer.parseInt(request.getParameter("id"));
+        User user = userService.findById(id);
+        request.setAttribute("user", user);
+        requestDispatcher.forward(request, response);
+    }
+
     private void showRegister(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("user/register.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/login-register/login.jsp");
         requestDispatcher.forward(request,response);
     }
 
-    private void homePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("user/home.jsp");
-        requestDispatcher.forward(request,response);
-    }
+//    private void homePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/login-register/login.jsp");
+//        requestDispatcher.forward(request,response);
+//    }
 
     private void showFormLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("user/login.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/login-register/login.jsp");
         requestDispatcher.forward(request,response);
     }
 
@@ -62,7 +67,7 @@ public class UserServlet extends HttpServlet {
         }
         switch (action) {
             case "login":
-                Login(request, response);
+                login(request, response);
                 break;
             case "register":
                 try {
@@ -71,7 +76,25 @@ public class UserServlet extends HttpServlet {
                     e.printStackTrace();
                 }
                 break;
+            case "edit":
+                try {
+                    edit(request,response);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
         }
+    }
+
+    private void edit(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        String full_name = request.getParameter("full_name");
+        String email = request.getParameter("email");
+        String avatar = "image/4wvuq0i4ozs1q.jpg" ;
+        String date_of_birth = request.getParameter("date_of_birth");
+        String password = request.getParameter("password");
+        User user = new User(full_name,email,avatar,date_of_birth,password);
+        userService.update(user);
+        response.sendRedirect("jsp/homepage/homepage.jsp");
     }
 
     private void Registers(HttpServletRequest request, HttpServletResponse response) throws ParseException, SQLException, ServletException, IOException {
@@ -79,12 +102,11 @@ public class UserServlet extends HttpServlet {
         String email = request.getParameter("email");
         String avatar = "image/4wvuq0i4ozs1q.jpg" ;
         String date_of_birth = request.getParameter("date_of_birth");
-        Date date = (Date) new SimpleDateFormat("dd/MM/yyyy").parse(date_of_birth);
         String password = request.getParameter("password");
-        User user = new User(full_name,email,avatar, date,password);
+        User user = new User(full_name,email,avatar, date_of_birth,password);
         if (userService.checkRegister(user)){
             userService.add(user);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("user/login.jsp");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/login-register/login.jsp");
             requestDispatcher.forward(request,response);
         }else {
             response.sendRedirect("/users?action=register");
@@ -94,8 +116,8 @@ public class UserServlet extends HttpServlet {
     }
 
 
-    private void Login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("user/home.jsp");
+    private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/homepage/homepage.jsp");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         if (userService.checkLogin(email,password)){
