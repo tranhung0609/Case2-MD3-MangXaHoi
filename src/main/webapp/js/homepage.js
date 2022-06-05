@@ -28,8 +28,6 @@ function likePost(){
     }else {
         document.getElementById('likeThumb').className = "fa-regular fa-thumbs-up"
     }
-
-
 }
 
 

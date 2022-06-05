@@ -9,6 +9,7 @@
     <title>FakeBook</title>
     <script src="https://kit.fontawesome.com/ef7e2b893b.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
+    <script src="../../js/profile.js"></script>
 
 </head>
 
@@ -18,9 +19,9 @@
             <a href="#"><img class="logo" src="../../image/logofakebook.jpg"></a>
 <!--            <img class="logo" src="../../image/logofakebook.jpg">-->
             <ul class="navlogo">
-                <li><img src="images/notification.png"></li>
-                <li><img src="images/inbox.png"></li>
-                <li><img src="images/video.png"></li>
+                <li><a href="#"><img src="images/notification.png"></a></li>
+                <li><a href="#"><img src="images/inbox.png"></a></li>
+                <li><a href="#"><img src="images/video.png"></a></li>
             </ul>
         </div>
         <div class="nav-right">
@@ -99,8 +100,7 @@
             </div>
             <div class="right-dashboard-info">
                 <div class="right-dashboard-info-top">
-
-                    <button type="button"><i class="fas fa-user-plus"></i> Friends</button>
+                    <button onclick="addFriend()"  type="button"><i id="addThumb" class="fas fa-user-plus"></i> Friends</button>
                     <button type="button" style="background-color: #f0f0f0; color: #0a0a0a"><i class="far fa-envelope"></i> messages</button>
                 </div>
                 <div class="right-div-single-logo"> <a href="#"> <i class="fas fa-ellipsis-h"></i></a></div>
@@ -212,7 +212,7 @@
                         <img src="images/profile-pic.png" alt="">
                         <div>
                             <p> Alex Carry</p>
-                            <small>Public <i class="fas fa-caret-down"></i></small>
+<!--                            <small>Public <i class="fas fa-caret-down"></i></small>-->
                         </div>
                     </div>
 
