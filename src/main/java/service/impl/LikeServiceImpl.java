@@ -1,15 +1,11 @@
 package service.impl;
 
-import model.FriendShip;
 import model.Like;
 import service.LikeService;
 import service.LikeStatusService;
 
 import java.sql.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class LikeServiceImpl implements LikeService {
@@ -34,14 +30,14 @@ public class LikeServiceImpl implements LikeService {
         List<Like> likes = new ArrayList<>();
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM like")) {
+                     connection.prepareStatement("SELECT * FROM likes")) {
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
                 int postId = rs.getInt("post_id");
                 int userId = rs.getInt("user_id");
                 String time = rs.getString("time");
-                int likeStatusId = rs.getInt("statusId");
+                int likeStatusId = rs.getInt("status_id");
                 likes.add(new Like(id, postService.findById(postId), userService.findById(userId), time, likeStatusService.findById(likeStatusId)));
             }
         } catch (SQLException e) {
@@ -53,11 +49,10 @@ public class LikeServiceImpl implements LikeService {
     @Override
     public void add(Like like) throws SQLException {
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO like (post_id, user_id, time, status_id) VALUES (?, ?, ?, ?)")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO likes (post_id, user_id, time) VALUES (?, ?, ?)")) {
             preparedStatement.setInt(1, like.getPost().getId());
             preparedStatement.setInt(2, like.getUser().getId());
             preparedStatement.setString(3,like.getTime());
-            preparedStatement.setInt(4, like.getLikeStatus().getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
         }
@@ -74,6 +69,27 @@ public class LikeServiceImpl implements LikeService {
         return null;
     }
 
+    public List<Like> findMyLikes(int userId) {
+        List<Like> likes = findAll();
+        List<Like> myLikes = new ArrayList<>();
+        for (Like l : likes) {
+            if (l.getUser().getId() == userId) {
+                myLikes.add(l);
+            }
+        }
+        return myLikes;
+    }
+
+    public boolean checkLike(int postId, int userId) {
+        List<Like> myLikes = findMyLikes(userId);
+        for (Like l : myLikes) {
+            if (l.getPost().getId() == postId) {
+                return false; // unlike
+            }
+        }
+        return true; // like
+    }
+
     @Override
     public boolean update(Like like) {
         return false;
@@ -81,7 +97,31 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     public boolean delete(int id) throws SQLException {
+        boolean rowDeleted = false;
+//        try (Connection connection = getConnection();
+//             PreparedStatement preparedStatement =
+//                     connection.prepareStatement("DELETE FROM accounts WHERE id = ?;")) {
+//            preparedStatement.setInt(1, id);
+//            rowDeleted = preparedStatement.executeUpdate() > 0;
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return rowDeleted;
         return false;
+    }
+
+    public boolean unlike(int postId, int userId) throws SQLException {
+        boolean rowDeleted = false;
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement("DELETE FROM likes WHERE (post_id = ? AND user_id = ?);")) {
+            preparedStatement.setInt(1, postId);
+            preparedStatement.setInt(2, userId);
+            rowDeleted = preparedStatement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rowDeleted;
     }
 
     @Override

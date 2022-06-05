@@ -1,9 +1,6 @@
 package controller;
 
-import model.FriendShip;
-import model.Post;
-import model.User;
-import model.ViewMode;
+import model.*;
 import service.impl.*;
 
 import javax.servlet.*;
@@ -27,6 +24,7 @@ public class UserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("utf-8");
+        HttpSession session = request.getSession();
         String action = request.getParameter("action");
         if (action == null) {
             action = "";
@@ -39,14 +37,25 @@ public class UserServlet extends HttpServlet {
                 showFormProfile(request, response);
                 break;
             case "homepage":
-                showFormHomePage(request, response);
+                showFormHomePage(request, response, session);
                 break;
             default:
                 showFormLogin(request, response);
         }
     }
 
-    private void showFormHomePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void showFormHomePage(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+        session.setAttribute("currentUser", UserServiceImpl.currentUsers);
+        List<User> myFriends = friendShipService.findFriendsByUserId(UserServiceImpl.currentUsers.getId());
+        session.setAttribute("myFriends", myFriends);
+        List<User> otherUsers = friendShipService.findAllOtherFriends(UserServiceImpl.currentUsers.getId());
+        session.setAttribute("otherUsers", otherUsers);
+        List<User> friendRequests = friendShipService.findFriendRequests(UserServiceImpl.currentUsers.getId());
+        session.setAttribute("friendRequests", friendRequests);
+        List<ViewMode> viewModes = viewModeService.findAll();
+        session.setAttribute("viewModes", viewModes);
+        List<Post> posts = postService.findAllOfFriends(UserServiceImpl.currentUsers.getId());
+        session.setAttribute("postsOfFriends", posts);
         request.getRequestDispatcher("jsp/homepage/homepage.jsp").forward(request, response);
     }
 
@@ -95,13 +104,6 @@ public class UserServlet extends HttpServlet {
                     e.printStackTrace();
                 }
                 break;
-//            case "send-invitation":
-//                try {
-//                    sendInvitation(request, response);
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                }
-//                break;
             case "send-invitation": // các thao tác kết bạn, hủy lời mời đã gủi, hủy kết bạn
                 try {
                     manipulation(request, response);
@@ -119,21 +121,7 @@ public class UserServlet extends HttpServlet {
                     e.printStackTrace();
                 }
                 break;
-            case "unfriend":
-                unfriend(request, response, session);
-                break;
-            case "cancel-sent-request":
-                cancelSentRequest(request, response, session);
-                break;
         }
-    }
-
-    private void cancelSentRequest(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-
-    }
-
-    private void unfriend(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-
     }
 
     private void acceptRequest(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
@@ -177,7 +165,7 @@ public class UserServlet extends HttpServlet {
     private void register(HttpServletRequest request, HttpServletResponse response) throws ParseException, SQLException, ServletException, IOException {
         String name = request.getParameter("full_name");
         String email = request.getParameter("email");
-        String avatar = "zyro-image.jpg";
+        String avatar = "image/zyro-image.jpg";
         String date_of_birth = request.getParameter("date_of_birth");
         String password = request.getParameter("password");
         User user = new User(name, email, avatar, date_of_birth, password);
@@ -196,6 +184,8 @@ public class UserServlet extends HttpServlet {
         String password = request.getParameter("password");
         if (userService.checkLogin(email, password)) {
             session.setAttribute("currentUser", UserServiceImpl.currentUsers);
+            List<User> myFriends = friendShipService.findFriendsByUserId(UserServiceImpl.currentUsers.getId());
+            session.setAttribute("myFriends", myFriends);
             List<User> otherUsers = friendShipService.findAllOtherFriends(UserServiceImpl.currentUsers.getId());
             session.setAttribute("otherUsers", otherUsers);
             List<User> friendRequests = friendShipService.findFriendRequests(UserServiceImpl.currentUsers.getId());

@@ -21,8 +21,8 @@
 
 <body>
 <nav class="navbar">
-    <div class="nav-left"><a href="jsp/homepage/homepage.jsp"><img class="logo" src="../../image/logofakebook.jpg"
-                                                                   alt=""></a>
+    <div class="nav-left"><a href="/users?action=homepage"><img class="logo" src="../../image/logofakebook.jpg"
+                                                                alt=""></a>
         <ul class="navlogo">
             <p style="color: #0a0a0a"><a style="color: #0a0a0a"
                                          href="/users?action=my-profile&id=${currentUser.id}">${currentUser.fullName}</a>
@@ -34,7 +34,7 @@
     </div>
     <div class="nav-right">
         <div class="search-box">
-            <img src="images/search.png" alt="">
+            <img src="jsp/homepage/images/search.png" alt="">
             <input type="text" placeholder="Search">
         </div>
         <%--        <div class="profile-image online" onclick="UserSettingToggle()">--%>
@@ -45,7 +45,7 @@
     <div class="user-settings">
         <div class="profile-darkButton">
             <div class="user-profile">
-                <img src="images/profile-pic.png" alt="">
+                <img src="jsp/homepage/images/profile-pic.png" alt="">
                 <div>
                     <p> Alex Carry</p>
                     <a href="#">See your profile</a>
@@ -57,7 +57,7 @@
         </div>
         <hr>
         <div class="user-profile">
-            <img src="images/feedback.png" alt="">
+            <img src="jsp/homepage/images/feedback.png" alt="">
             <div>
                 <p> Give Feedback</p>
                 <a href="#">Help us to improve</a>
@@ -65,23 +65,23 @@
         </div>
         <hr>
         <div class="settings-links">
-            <img src="images/setting.png" alt="" class="settings-icon">
-            <a href="#">Settings & Privary <img src="images/arrow.png" alt=""></a>
+            <img src="jsp/homepage/images/setting.png" alt="" class="settings-icon">
+            <a href="#">Settings & Privary <img src="jsp/homepage/images/arrow.png" alt=""></a>
         </div>
 
         <div class="settings-links">
-            <img src="images/help.png" alt="" class="settings-icon">
-            <a href="#">Help & Support <img src="images/arrow.png" alt=""></a>
+            <img src="jsp/homepage/images/help.png" alt="" class="settings-icon">
+            <a href="#">Help & Support <img src="jsp/homepage/images/arrow.png" alt=""></a>
         </div>
 
         <div class="settings-links">
-            <img src="images/Display.png" alt="" class="settings-icon">
-            <a href="#">Display & Accessibility <img src="images/arrow.png" alt=""></a>
+            <img src="jsp/homepage/images/Display.png" alt="" class="settings-icon">
+            <a href="#">Display & Accessibility <img src="jsp/homepage/images/arrow.png" alt=""></a>
         </div>
 
         <div class="settings-links">
-            <img src="images/logout.png" alt="" class="settings-icon">
-            <a href="#">Logout <img src="images/arrow.png" alt=""></a>
+            <img src="jsp/homepage/images/logout.png" alt="" class="settings-icon">
+            <a href="#">Logout <img src="jsp/homepage/images/arrow.png" alt=""></a>
         </div>
 
     </div>
@@ -92,12 +92,25 @@
 <div class="container">
     <div class="left-sidebar">
         <div class="important-links">
-            <a href="#"><img src="images/news.png" alt="">Latest News</a>
-            <a href="#"><img src="images/friends.png" alt="">Friends</a>
+            <a href="#"><img src="jsp/homepage/images/news.png" alt="">Latest News</a>
+            <a href="#"><img src="jsp/homepage/images/friends.png" alt="">Friends</a>
             <!--                <a href="#"><img src="images/group.png" alt="">Groups</a>-->
             <!--                <a href="#"><img src="images/marketplace.png" alt="">marketplace</a>-->
-            <a href="#"><img src="images/watch.png" alt="">Watch</a>
+            <a href="#"><img src="jsp/homepage/images/watch.png" alt="">Watch</a>
             <a href="#">See More</a>
+        </div>
+        <div>
+            <div class="heading-link profile-heading-link">
+                <h4>Friends</h4>
+            </div>
+            <c:forEach items="${myFriends}" var="user">
+                <div class="online-list">
+                    <div class="online">
+                        <img src="${user.avatar}" alt="avt">
+                    </div>
+                    <p><a href="/users?action=profile&id=${user.id}">${user.fullName}</a></p>
+                </div>
+            </c:forEach>
         </div>
 
     </div>
@@ -107,7 +120,7 @@
     <div class="content-area">
         <div class="story-gallery">
             <div class="story story1">
-                <img class="add-story" src="images/upload.png" alt="">
+                <img class="add-story" src="jsp/homepage/images/upload.png" alt="">
                 <p>Post Story</p>
             </div>
             <div class="story story2">
@@ -195,28 +208,30 @@
                         <div><img src="jsp/homepage/images/share.png" alt="">35</div>
                     </div>
                     <div class="post-profile-picture">
-                        <img src="images/profile-pic.png " alt=""> <i class=" fas fa-caret-down"></i>
+                        <img src="${currentUser.avatar}" alt=""> <i class=" fas fa-caret-down"></i>
                     </div>
                 </div>
+                <c:forEach items="${post.getComments()}" var="comment">
+                    <div>
+                        <div class="user-profile"><img src="${comment.getUser().getAvatar()}" alt="">
+                            <div>
+                                <p> ${comment.getUser().getFullName()}</p>
+                                <small>${comment.time}</small>
+                            </div>
+                        </div>
+                        <div class="status-field"><p>${comment.content}</p></div>
+                    </div>
+                </c:forEach>
                 <form action="/posts" method="post">
                     <input type="hidden" name="action" value="comment">
                     <input type="hidden" name="postId" value="${post.id}">
                     <div class="post-upload-textarea">
                     <textarea name="commentContent" placeholder="Write a comment" cols="30"
                               rows="1"></textarea>
-                            <button s>Comment</button>
+                        <button>Comment</button>
                     </div>
                 </form>
-                <c:forEach items="${comments}" var="comment">
-                    <div class="user-profile">
-                        <img src="${comment.getUser().getAvatar()}" alt="">
-                        <div>
-                            <p> ${comment.getUser().getFullName()}</p>
-                            <small>${comment.time}</small>
-                        </div>
-                        <div><p>${comment.content}</p></div>
-                    </div>
-                </c:forEach>
+
             </div>
 
         </c:forEach>
@@ -225,46 +240,6 @@
 
     <!-- sidebar------------ -->
     <div class="right-sidebar">
-        <!--            <div class="heading-link">-->
-        <!--                <h4>Events</h4>-->
-        <!--                <a href="">See All</a>-->
-        <!--            </div>-->
-
-        <!--            <div class="events">-->
-        <!--                <div class="left-event">-->
-        <!--                    <h4>13</h4>-->
-        <!--                    <span>august</span>-->
-        <!--                </div>-->
-        <!--                <div class="right-event">-->
-        <!--                    <h4>Social Media</h4>-->
-        <!--                    <p> <i class="fas fa-map-marker-alt"></i> wisdom em Park</p>-->
-        <!--                    <a href="#">More Info</a>-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--            <div class="events">-->
-        <!--                <div class="left-event">-->
-        <!--                    <h4>18</h4>-->
-        <!--                    <span>January</span>-->
-        <!--                </div>-->
-        <!--                <div class="right-event">-->
-        <!--                    <h4>Mobile Marketing</h4>-->
-        <!--                    <p><i class="fas fa-map-marker-alt"></i> wisdom em Park</p>-->
-        <!--                    <a href="#">More Info</a>-->
-        <!--                </div>-->
-        <!--            </div>-->
-
-        <!--            <div class="heading-link">-->
-        <!--                <h4>Advertisement</h4>-->
-        <!--                <a href="">Close</a>-->
-        <!--            </div>-->
-        <!--            <div class="advertisement">-->
-        <!--                <img src="images/advertisement.png" class="advertisement-image" alt="">-->
-        <!--            </div>-->
-
-        <!--            <div class="heading-link">-->
-        <!--                <h4>Conversation</h4>-->
-        <!--                <a href="">Hide Chat</a>-->
-        <!--            </div>-->
         <div>
             <div class="heading-link profile-heading-link">
                 <h4>Suggestions for making friends</h4>
@@ -278,18 +253,6 @@
                 </div>
             </c:forEach>
         </div>
-        <%--        <div class="online-list">--%>
-        <%--            <div class="online">--%>
-        <%--                <img src="images/member-2.png" alt="">--%>
-        <%--            </div>--%>
-        <%--            <p>Jackson Aston</p>--%>
-        <%--        </div>--%>
-        <%--        <div class="online-list">--%>
-        <%--            <div class="online">--%>
-        <%--                <img src="images/member-3.png" alt="">--%>
-        <%--            </div>--%>
-        <%--            <p>Samona Rose</p>--%>
-        <%--        </div>--%>
         <div>
             <div class="heading-link profile-heading-link">
                 <h4>Friend Request</h4>

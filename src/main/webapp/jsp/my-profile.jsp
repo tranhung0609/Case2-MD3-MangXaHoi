@@ -22,7 +22,7 @@
 <body>
 <nav class="navbar">
     <%--    <div class="nav-left"><img class="logo" src="images/logo.png" alt="">--%>
-    <div class="nav-left"><a href="jsp/homepage/homepage.jsp"><img class="logo" src="../../image/logofakebook.jpg"
+    <div class="nav-left"><a href="/users?action=homepage"><img class="logo" src="../../image/logofakebook.jpg"
                                                                    alt="logoFB"></a>
         <ul class="navlogo">
             <p style="color: #0a0a0a">
@@ -37,14 +37,14 @@
     </div>
     <div class="nav-right">
         <div class="search-box">
-            <img src="images/search.png" alt="">
+            <img src="jsp/homepage/images/search.png" alt="">
             <input type="text" placeholder="Search">
         </div>
     </div>
     <div class="user-settings">
         <div class="profile-darkButton">
             <div class="user-profile">
-                <img src="images/profile-pic.png" alt="">
+                <img src="jsp/homepage/images/profile-pic.png" alt="">
                 <div>
                     <p> ${currentUser.fullName}</p>
                     <a href="/users?action=my-profile&id=${currentUser.id}">See your profile</a>
@@ -56,7 +56,7 @@
         </div>
         <hr>
         <div class="user-profile">
-            <img src="images/feedback.png" alt="">
+            <img src="jsp/homepage/images/feedback.png" alt="">
             <div>
                 <p> Give Feedback</p>
                 <a href="#">Help us to improve</a>
@@ -64,23 +64,23 @@
         </div>
         <hr>
         <div class="settings-links">
-            <img src="images/setting.png" alt="" class="settings-icon">
-            <a href="#">Settings & Privary <img src="images/arrow.png" alt=""></a>
+            <img src="jsp/homepage/images/setting.png" alt="" class="settings-icon">
+            <a href="#">Settings & Privary <img src="jsp/homepage/images/arrow.png" alt=""></a>
         </div>
 
         <div class="settings-links">
-            <img src="images/help.png" alt="" class="settings-icon">
-            <a href="#">Help & Support <img src="images/arrow.png" alt=""></a>
+            <img src="jsp/homepage/images/help.png" alt="" class="settings-icon">
+            <a href="#">Help & Support <img src="jsp/homepage/images/arrow.png" alt=""></a>
         </div>
 
         <div class="settings-links">
-            <img src="images/Display.png" alt="" class="settings-icon">
-            <a href="#">Display & Accessibility <img src="images/arrow.png" alt=""></a>
+            <img src="jsp/homepage/images/Display.png" alt="" class="settings-icon">
+            <a href="#">Display & Accessibility <img src="jsp/homepage/images/arrow.png" alt=""></a>
         </div>
 
         <div class="settings-links">
-            <img src="images/logout.png" alt="" class="settings-icon">
-            <a href="#">Logout <img src="images/arrow.png" alt=""></a>
+            <img src="jsp/homepage/images/logout.png" alt="" class="settings-icon">
+            <a href="#">Logout <img src="jsp/homepage/images/arrow.png" alt=""></a>
         </div>
 
     </div>
@@ -90,7 +90,7 @@
 
 
 <div class="profile-container">
-    <img src="images/cover.png" class="coverImage" alt="">
+    <img src="jsp/homepage/images/cover.png" class="coverImage" alt="">
     <div class="dashboard">
         <div class="left-dashboard">
             <img src="${currentUser.avatar}" class="dashboard-img" alt="avt">
@@ -98,10 +98,10 @@
                 <h3>${currentUser.fullName}</h3>
                 <p>${myFriends.size()} Friends</p>
                 <div class="mutual-friend-images">
-                    <img src="images/member-1.png" alt="">
-                    <img src="images/member-2.png" alt="">
-                    <img src="images/member-3.png" alt="">
-                    <img src="images/member-5.png" alt="">
+                    <img src="jsp/homepage/images/member-1.png" alt="">
+                    <img src="jsp/homepage/images/member-2.png" alt="">
+                    <img src="jsp/homepage/images/member-3.png" alt="">
+                    <img src="jsp/homepage/images/member-5.png" alt="">
                 </div>
             </div>
         </div>
@@ -152,13 +152,13 @@
 
                 <div class="gallery-photos">
                     <div class="gallery-photos-rowFirst">
-                        <img src="images/photo1.png" alt="">
-                        <img src="images/photo2.png" alt="">
-                        <img src="images/photo3.png" alt="">
+                        <img src="jsp/homepage/images/photo1.png" alt="">
+                        <img src="jsp/homepage/images/photo2.png" alt="">
+                        <img src="jsp/homepage/images/photo3.png" alt="">
 
-                        <img src="images/photo4.png" alt="">
-                        <img src="images/photo5.png" alt="">
-                        <img src="images/photo6.png" alt="">
+                        <img src="jsp/homepage/images/photo4.png" alt="">
+                        <img src="jsp/homepage/images/photo5.png" alt="">
+                        <img src="jsp/homepage/images/photo6.png" alt="">
                     </div>
                 </div>
             </div>
@@ -188,7 +188,7 @@
         <div class="content-area profile-content-area">
             <div class="write-post-container">
                 <div class="user-profile">
-                    <img src="images/profile-pic.png" alt="">
+                    <img src="jsp/homepage/images/profile-pic.png" alt="">
                     <div>
                         <p> Alex Carry</p>
                         <small>Public <i class="fas fa-caret-down"></i></small>
@@ -198,9 +198,9 @@
                 <div class="post-upload-textarea">
                     <textarea name="" placeholder="What's on your mind, Alex?" id="" cols="30" rows="3"></textarea>
                     <div class="add-post-links">
-                        <a href="#"><img src="images/live-video.png" alt="">Live Video</a>
-                        <a href="#"><img src="images/photo.png" alt="">Photo/Video</a>
-                        <a href="#"><img src="images/feeling.png" alt="">Feeling Activity</a>
+                        <a href="#"><img src="jsp/homepage/images/live-video.png" alt="">Live Video</a>
+                        <a href="#"><img src="jsp/homepage/images/photo.png" alt="">Photo/Video</a>
+                        <a href="#"><img src="jsp/homepage/images/feeling.png" alt="">Feeling Activity</a>
                     </div>
                 </div>
             </div>
@@ -223,24 +223,24 @@
                         laborum nihil accusantium odit laboriosam, sed sit autem! <a
                                 href="#">#This_Post_is_Better!!!!</a>
                     </p>
-                    <img src="images/feed-image-1.png" alt="">
+                    <img src="jsp/homepage/images/feed-image-1.png" alt="">
 
                 </div>
                 <div class="post-reaction">
                     <div class="activity-icons">
-                        <div><img src="images/like-blue.png" alt="">120</div>
-                        <div><img src="images/comments.png" alt="">52</div>
-                        <div><img src="images/share.png" alt="">35</div>
+                        <div><img src="jsp/homepage/images/like-blue.png" alt="">120</div>
+                        <div><img src="jsp/homepage/images/comments.png" alt="">52</div>
+                        <div><img src="jsp/homepage/images/share.png" alt="">35</div>
                     </div>
                     <div class="post-profile-picture">
-                        <img src="images/profile-pic.png " alt=""> <i class=" fas fa-caret-down"></i>
+                        <img src="jsp/homepage/images/profile-pic.png " alt=""> <i class=" fas fa-caret-down"></i>
                     </div>
                 </div>
             </div>
             <div class="status-field-container write-post-container">
                 <div class="user-profile-box">
                     <div class="user-profile">
-                        <img src="images/profile-pic.png" alt="">
+                        <img src="jsp/homepage/images/profile-pic.png" alt="">
                         <div>
                             <p> Alex Carry</p>
                             <small>August 13 1999, 09.18 pm</small>
@@ -255,24 +255,24 @@
                         laborum nihil accusantium odit laboriosam, sed sit autem! <a
                                 href="#">#This_Post_is_Bigger!!!!</a>
                     </p>
-                    <img src="images/feed-image-2.png" alt="">
+                    <img src="jsp/homepage/images/feed-image-2.png" alt="">
 
                 </div>
                 <div class="post-reaction">
                     <div class="activity-icons">
-                        <div><img src="images/like-blue.png" alt="">120</div>
-                        <div><img src="images/comments.png" alt="">52</div>
-                        <div><img src="images/share.png" alt="">35</div>
+                        <div><img src="jsp/homepage/images/like-blue.png" alt="">120</div>
+                        <div><img src="jsp/homepage//comments.png" alt="">52</div>
+                        <div><img src="jsp/homepage/images/share.png" alt="">35</div>
                     </div>
                     <div class="post-profile-picture">
-                        <img src="images/profile-pic.png " alt=""> <i class=" fas fa-caret-down"></i>
+                        <img src="jsp/homepage/images/profile-pic.png " alt=""> <i class=" fas fa-caret-down"></i>
                     </div>
                 </div>
             </div>
             <div class="status-field-container write-post-container">
                 <div class="user-profile-box">
                     <div class="user-profile">
-                        <img src="images/profile-pic.png" alt="">
+                        <img src="jsp/homepage/images/profile-pic.png" alt="">
                         <div>
                             <p> Alex Carry</p>
                             <small>August 13 1999, 09.18 pm</small>
@@ -287,17 +287,17 @@
                         laborum nihil accusantium odit laboriosam, sed sit autem! <a
                                 href="#">#This_Post_is_faster!!!!</a>
                     </p>
-                    <img src="images/feed-image-3.png" alt="">
+                    <img src="jsp/homepage/images/feed-image-3.png" alt="">
 
                 </div>
                 <div class="post-reaction">
                     <div class="activity-icons">
-                        <div><img src="images/like-blue.png" alt="">120</div>
-                        <div><img src="images/comments.png" alt="">52</div>
-                        <div><img src="images/share.png" alt="">35</div>
+                        <div><img src="jsp/homepage/images/like-blue.png" alt="">120</div>
+                        <div><img src="jsp/homepage/images/comments.png" alt="">52</div>
+                        <div><img src="jsp/homepage/images/share.png" alt="">35</div>
                     </div>
                     <div class="post-profile-picture">
-                        <img src="images/profile-pic.png " alt=""> <i class=" fas fa-caret-down"></i>
+                        <img src="jsp/homepage/images/profile-pic.png " alt=""> <i class=" fas fa-caret-down"></i>
                     </div>
                 </div>
             </div>
@@ -319,17 +319,17 @@
                         laborum nihil accusantium odit laboriosam, sed sit autem! <a
                                 href="#">#This_Post_is_perfect!!!!</a>
                     </p>
-                    <img src="images/feed-image-4.png" alt="">
+                    <img src="jsp/homepage/images/feed-image-4.png" alt="">
 
                 </div>
                 <div class="post-reaction">
                     <div class="activity-icons">
-                        <div><img src="images/like-blue.png" alt="">120</div>
-                        <div><img src="images/comments.png" alt="">52</div>
-                        <div><img src="images/share.png" alt="">35</div>
+                        <div><img src="jsp/homepage/images/like-blue.png" alt="">120</div>
+                        <div><img src="jsp/homepage/images/comments.png" alt="">52</div>
+                        <div><img src="jsp/homepage/images/share.png" alt="">35</div>
                     </div>
                     <div class="post-profile-picture">
-                        <img src="images/profile-pic.png " alt=""> <i class=" fas fa-caret-down"></i>
+                        <img src="jsp/homepage/images/profile-pic.png " alt=""> <i class=" fas fa-caret-down"></i>
                     </div>
                 </div>
             </div>

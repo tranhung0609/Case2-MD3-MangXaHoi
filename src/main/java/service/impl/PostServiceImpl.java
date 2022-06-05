@@ -1,5 +1,6 @@
 package service.impl;
 
+import model.Comment;
 import model.Post;
 import model.User;
 import service.CommentService;
@@ -15,7 +16,6 @@ public class PostServiceImpl implements PostService {
     UserServiceImpl userService = new UserServiceImpl();
     ViewModeServiceImpl viewModeService = new ViewModeServiceImpl();
     FriendShipServiceImpl friendShipService = new FriendShipServiceImpl();
-
 
     protected Connection getConnection() {
         Connection connection = null;
@@ -44,13 +44,34 @@ public class PostServiceImpl implements PostService {
                 int viewModeId = rs.getInt("view_mode_id");
                 String image = rs.getString("image");
                 String content = rs.getString("content");
-
-                posts.add(new Post(id, userService.findById(userId), time, commentCount, likeCount, viewModeService.findById(viewModeId), image, content));
+                List<Comment> comments = findByPostId(id);
+                posts.add(new Post(id, userService.findById(userId), time, commentCount, likeCount, viewModeService.findById(viewModeId), image, content, comments));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return posts;
+    }
+
+    public List<Comment> findByPostId(int postId) {
+        List<Comment> comments = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement("SELECT * FROM comment WHERE post_id = ?")) {
+            preparedStatement.setInt(1, postId);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int userId = rs.getInt("user_id");
+                String content = rs.getString("content");
+                String time = rs.getString("time");
+                comments.add(new Comment(id, postId , userService.findById(userId), time, content));
+//                comments.add(new Comment(id, findById(postId) , userService.findById(userId), time, content));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return comments;
     }
 
     public List<Post> findAllPublic() {
@@ -94,8 +115,8 @@ public class PostServiceImpl implements PostService {
                 int viewModeId = rs.getInt("view_mode_id");
                 String image = rs.getString("image");
                 String content = rs.getString("content");
-
-                posts.add(new Post(id, userService.findById(userId), time, commentCount, likeCount, viewModeService.findById(viewModeId), image, content));
+                List<Comment> comments = findByPostId(id);
+                posts.add(new Post(id, userService.findById(userId), time, commentCount, likeCount, viewModeService.findById(viewModeId), image, content, comments));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -133,7 +154,22 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public boolean update(Post post) {
-        return false;
+        boolean rowUpdate = false;
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement("UPDATE posts SET time = ?, comment_count = ?, like_count = ?, view_mode_id = ?, image = ?, content = ? WHERE id = ?;")) {
+            preparedStatement.setString(1, post.getTime());
+            preparedStatement.setInt(2, post.getCommentCount ());
+            preparedStatement.setInt(3, post.getLikeCount());
+            preparedStatement.setInt(4, post.getViewMode().getId());
+            preparedStatement.setString(5, post.getImage());
+            preparedStatement.setString(6, post.getContent());
+            preparedStatement.setInt(7, post.getId());
+            rowUpdate = preparedStatement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rowUpdate;
     }
 
     @Override

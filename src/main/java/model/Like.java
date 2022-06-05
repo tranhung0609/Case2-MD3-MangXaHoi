@@ -12,6 +12,19 @@ public class Like {
     public Like() {
     }
 
+    public Like(Post post, User user, String time) {
+        this.post = post;
+        this.user = user;
+        this.time = time;
+    }
+
+    public Like(int id, Post post, User user, String time) {
+        this.id = id;
+        this.post = post;
+        this.user = user;
+        this.time = time;
+    }
+
     public Like(int id, Post post, User user, String time, LikeStatus likeStatus) {
         this.id = id;
         this.post = post;
