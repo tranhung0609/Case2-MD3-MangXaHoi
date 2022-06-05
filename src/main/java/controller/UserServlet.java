@@ -30,14 +30,37 @@ public class UserServlet extends HttpServlet {
             case "edit":
                 showFormEdit(request,response);
                 break;
+            case "profile":
+                showProfile(request,response);
+                break;
+            case "search":
+                showFormSearch(request,response);
+                break;
             default:
                 showFormLogin(request,response);
                 break;
         }
     }
 
+    private void showFormSearch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String name = request.getParameter("name");
+        List<User>userList = userService.findByName(name);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("user/search.jsp");
+        request.setAttribute("list",userList);
+        requestDispatcher.forward(request,response);
+    }
+
+    private void showProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("user/profile.jsp");
+        int id = Integer.parseInt(request.getParameter("id"));
+        User user = userService.findById(id);
+        request.setAttribute("user",user);
+        requestDispatcher.forward(request,response);
+    }
+
+
     private void showFormEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("edit.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("user/edit.jsp");
         int id = Integer.parseInt(request.getParameter("id"));
         User user = userService.findById(id);
         request.setAttribute("user", user);
@@ -86,15 +109,18 @@ public class UserServlet extends HttpServlet {
         }
     }
 
-    private void edit(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+    private void edit(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+        int id = Integer.parseInt(request.getParameter("id"));
         String full_name = request.getParameter("full_name");
         String email = request.getParameter("email");
         String avatar = "image/4wvuq0i4ozs1q.jpg" ;
         String date_of_birth = request.getParameter("date_of_birth");
         String password = request.getParameter("password");
-        User user = new User(full_name,email,avatar,date_of_birth,password);
+        User user = new User(id,full_name,email,avatar,date_of_birth,password);
         userService.update(user);
-        response.sendRedirect("jsp/homepage/homepage.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/homepage/homepage.jsp");
+        request.setAttribute("user",UserServiceImpl.currentUsers);
+        requestDispatcher.forward(request,response);
     }
 
     private void Registers(HttpServletRequest request, HttpServletResponse response) throws ParseException, SQLException, ServletException, IOException {

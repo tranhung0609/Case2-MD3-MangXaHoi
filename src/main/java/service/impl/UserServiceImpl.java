@@ -57,12 +57,36 @@ public class UserServiceImpl implements UserService {
                 String avatar = resultSet.getString("avatar");
                 String date_of_birth = resultSet.getString("date_of_birth");
                 String password = resultSet.getString("password");
-                user = new User(full_name,email,avatar,date_of_birth,password);
+                user = new User(id,full_name,email,avatar,date_of_birth,password);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return user;
+    }
+
+
+    public List<User> findByName(String name) {
+        List<User> users = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM products WHERE name LIKE ? AND accountId <> ?")
+        ) {
+            preparedStatement.setString(1,"%" + name + "%");
+            preparedStatement.setInt(2,UserServiceImpl.currentUsers.getId());
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String full_name = rs.getString("full_name");
+                String email = rs.getString("email");
+                String avatar = rs.getString("avatar");
+                String date_of_birth = rs.getString("date_of_birth");
+                String password = rs.getString("password");
+                users.add(new User(id,full_name,email,avatar,date_of_birth,password));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
     }
 
     @Override
