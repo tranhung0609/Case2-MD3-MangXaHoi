@@ -70,26 +70,6 @@ public class FriendShipServiceImpl implements FriendShipService {
         return friendRequests;
     }
 
-//    public int getRelationship(int userId1, int userId2) {
-//        int count = 0;
-//        List<FriendShip> friendShips = findAll();
-//        for (FriendShip f : friendShips) {
-//            if (f.getUser1().getId() == userId1){
-//
-//            }
-//        }
-//    }
-
-//    public int sendInvitation(int userId) {
-//        int count = 0;
-//        List<User> users = findFriendsByUserId(UserServiceImpl.currentUsers.getId());
-//        for (User u : users) {
-//            if (u.getId() == userId){
-//
-//            }
-//        }
-//    }
-
     public List<User> findFriendsByUserId(int userId) {
         List<User> users = new ArrayList<>();
         List<FriendShip> friendShips = findAll();
@@ -149,6 +129,17 @@ public class FriendShipServiceImpl implements FriendShipService {
         return null;
     }
 
+    public boolean getRelationship(int userId1, int userId2) {
+        List<FriendShip> friendShips = findAll();
+        for (FriendShip f : friendShips) {
+            if ((f.getUser1().getId() == userId1 && f.getUser2().getId() == userId2)
+                    || (f.getUser2().getId() == userId1 && f.getUser1().getId() == userId2)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override //chỉnh sửa trạng thái bạn bè
     public boolean update(FriendShip friendShip) {
 
@@ -171,16 +162,18 @@ public class FriendShipServiceImpl implements FriendShipService {
         return false;
     }
 
-    public void deleteRequest(int userId1, int userId2) throws SQLException {
+    public boolean deleteRequest(int userId1, int userId2) throws SQLException {
+        boolean check = false;
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement =
                      connection.prepareStatement("DELETE FROM friend_ship WHERE (user_id_1 = ? AND user_id_2 = ?)")) {
             preparedStatement.setInt(1, userId1);
             preparedStatement.setInt(2, userId2);
-            preparedStatement.executeUpdate();
+            check = preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return check;
     }
 
     @Override  //lấy list bạn bè theo tên

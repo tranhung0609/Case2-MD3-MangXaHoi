@@ -30,28 +30,24 @@
                     ${currentUser.fullName}
                 </a>
             </p>
-            <%--            <li><img src="images/notification.png"></li>--%>
-            <%--            <li><img src="images/inbox.png"></li>--%>
-            <%--            <li><img src="images/video.png"></li>--%>
         </ul>
+        <div class="profile-image online" onclick="UserSettingToggle()">
+            <img src="${currentUser.avatar}" alt="">
+        </div>
     </div>
     <div class="nav-right">
         <div class="search-box">
             <img src="images/search.png" alt="">
             <input type="text" placeholder="Search">
         </div>
-        <div class="profile-image online" onclick="UserSettingToggle()">
-            <img src="images/profile-pic.png" alt="">
-        </div>
-
     </div>
     <div class="user-settings">
         <div class="profile-darkButton">
             <div class="user-profile">
                 <img src="images/profile-pic.png" alt="">
                 <div>
-                    <p> Alex Carry</p>
-                    <a href="#">See your profile</a>
+                    <p> ${currentUser.fullName}</p>
+                    <a href="/users?action=my-profile&id=${currentUser.id}">See your profile</a>
                 </div>
             </div>
             <div id="dark-button" onclick="darkModeON()">

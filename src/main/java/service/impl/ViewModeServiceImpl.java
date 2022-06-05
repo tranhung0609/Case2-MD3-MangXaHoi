@@ -1,11 +1,11 @@
 package service.impl;
 
+import model.Status;
 import model.ViewMode;
 import service.ViewModeService;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ViewModeServiceImpl implements ViewModeService {
@@ -22,7 +22,20 @@ public class ViewModeServiceImpl implements ViewModeService {
 
     @Override
     public List<ViewMode> findAll() {
-        return null;
+        List<ViewMode> viewModes = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement("SELECT * FROM view_mode")) {
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                viewModes.add(new ViewMode(id, name));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return viewModes;
     }
 
     @Override
@@ -32,6 +45,12 @@ public class ViewModeServiceImpl implements ViewModeService {
 
     @Override
     public ViewMode findById(int id) {
+        List<ViewMode> viewModes = findAll();
+        for (ViewMode v : viewModes) {
+            if (v.getId() == id) {
+                return v;
+            }
+        }
         return null;
     }
 

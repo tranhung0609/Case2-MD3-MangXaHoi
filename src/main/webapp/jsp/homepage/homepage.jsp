@@ -130,150 +130,96 @@
                 <p>Thích Hương Tuệ</p>
             </div>
         </div>
-
         <div class="write-post-container">
-            <div class="user-profile">
-                <img src="images/profile-pic.png" alt="">
-                <div>
-                    <p> Alex Carry</p>
-                    <small>Public <i class="fas fa-caret-down"></i></small>
-                </div>
-            </div>
-
-            <div class="post-upload-textarea">
-                <textarea name="" placeholder="What's on your mind, Alex?" id="" cols="30" rows="3"></textarea>
-                <div class="add-post-links">
-                    <a href="#"><img src="images/live-video.png" alt="">Live Video</a>
-                    <a href="#"><img src="images/photo.png" alt="">Photo/Video</a>
-                    <a href="#"><img src="images/feeling.png" alt="">Feeling Activity</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="status-field-container write-post-container">
-            <div class="user-profile-box">
+            <form action="/posts" method="post">
+                <input type="hidden" value="add-post" name="action">
+                <input type="hidden" value="${currentUser.id}" name="userId">
                 <div class="user-profile">
-                    <img src="images/profile-pic.png" alt="">
+                    <img src="${currentUser.avatar}" alt="">
                     <div>
-                        <p> Alex Carry</p>
-                        <small>August 13 1999, 09.18 pm</small>
+                        <p> ${currentUser.fullName}</p>
+                        <small>
+                            <select name="viewModeId" class="form-control"
+                                    aria-label="Default select example">
+                                <c:forEach items="${viewModes}" var="viewMode">
+                                    <option value="${viewMode.id}">${viewMode.name}</option>
+                                </c:forEach>
+                            </select>
+                            <i class="fas fa-caret-down"></i>
+                        </small>
                     </div>
                 </div>
-                <div>
-                    <a href="#"><i class="fas fa-ellipsis-v"></i></a>
-                </div>
-            </div>
-            <div class="status-field">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis dolores praesentium dicta
-                    laborum nihil accusantium odit laboriosam, sed sit autem! <a
-                            href="#">#This_Post_is_Better!!!!</a></p>
-                <img src="images/feed-image-1.png" alt="">
-
-            </div>
-            <div class="post-reaction">
-                <div class="activity-icons">
-                    <div><img src="images/like-blue.png" alt="">120</div>
-                    <div><img src="images/comments.png" alt="">52</div>
-                    <div><img src="images/share.png" alt="">35</div>
-                </div>
-                <div class="post-profile-picture">
-                    <img src="images/profile-pic.png " alt=""> <i class=" fas fa-caret-down"></i>
-                </div>
-            </div>
-        </div>
-        <div class="status-field-container write-post-container">
-            <div class="user-profile-box">
-                <div class="user-profile">
-                    <img src="images/profile-pic.png" alt="">
-                    <div>
-                        <p> Alex Carry</p>
-                        <small>August 13 1999, 09.18 pm</small>
+                <div class="post-upload-textarea">
+                    <textarea name="content" placeholder="What's on your mind, ${currentUser.fullName}?" id="" cols="30"
+                              rows="3"></textarea>
+                    <div class="add-post-links">
+                        <input type="text" name="image" placeholder="Insert your image">
+                        <%--                        <a href="#"><img src="images/photo.png" alt="">Photo/Video</a>--%>
+                        <button>Post</button>
                     </div>
                 </div>
-                <div>
-                    <a href="#"><i class="fas fa-ellipsis-v"></i></a>
-                </div>
-            </div>
-            <div class="status-field">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis dolores praesentium dicta
-                    laborum nihil accusantium odit laboriosam, sed sit autem! <a
-                            href="#">#This_Post_is_Bigger!!!!</a></p>
-                <img src="images/feed-image-2.png" alt="">
-
-            </div>
-            <div class="post-reaction">
-                <div class="activity-icons">
-                    <div><img src="images/like-blue.png" alt="">120</div>
-                    <div><img src="images/comments.png" alt="">52</div>
-                    <div><img src="images/share.png" alt="">35</div>
-                </div>
-                <div class="post-profile-picture">
-                    <img src="images/profile-pic.png " alt=""> <i class=" fas fa-caret-down"></i>
-                </div>
-            </div>
+            </form>
         </div>
-        <div class="status-field-container write-post-container">
-            <div class="user-profile-box">
-                <div class="user-profile">
-                    <img src="images/profile-pic.png" alt="">
+
+        <c:forEach items="${postsOfFriends}" var="post">
+            <div class="status-field-container write-post-container">
+                <div class="user-profile-box">
+                    <div class="user-profile">
+                        <img src="${post.getUser().getAvatar()}" alt="">
+                        <div>
+                            <p> ${post.getUser().getFullName()}</p>
+                            <small>${post.time}</small>
+                        </div>
+                    </div>
                     <div>
-                        <p> Alex Carry</p>
-                        <small>August 13 1999, 09.18 pm</small>
+                        <a href="#"><i class="fas fa-ellipsis-v"></i></a>
                     </div>
                 </div>
-                <div>
-                    <a href="#"><i class="fas fa-ellipsis-v"></i></a>
+                <div class="status-field">
+                    <p>${post.content}</p>
+                    <img src="${post.image}" alt="">
                 </div>
-            </div>
-            <div class="status-field">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis dolores praesentium dicta
-                    laborum nihil accusantium odit laboriosam, sed sit autem! <a
-                            href="#">#This_Post_is_faster!!!!</a></p>
-                <img src="images/feed-image-3.png" alt="">
-
-            </div>
-            <div class="post-reaction">
-                <div class="activity-icons">
-                    <div><img src="images/like-blue.png" alt="">120</div>
-                    <div><img src="images/comments.png" alt="">52</div>
-                    <div><img src="images/share.png" alt="">35</div>
-                </div>
-                <div class="post-profile-picture">
-                    <img src="images/profile-pic.png " alt=""> <i class=" fas fa-caret-down"></i>
-                </div>
-            </div>
-        </div>
-        <div class="status-field-container write-post-container">
-            <div class="user-profile-box">
-                <div class="user-profile">
-                    <img src="images/profile-pic.png" alt="">
-                    <div>
-                        <p> Alex Carry</p>
-                        <small>August 13 1999, 09.18 pm</small>
+                <div class="post-reaction">
+                    <div class="activity-icons">
+                        <div>
+                            <form action="/posts" method="post">
+                                <input type="hidden" name="action" value="like">
+                                <input type="hidden" name="postId" value="${post.id}">
+                                <button>
+                                    <img src="jsp/homepage/images/like.png" alt="">
+                                </button>
+                                    ${post.likeCount} likes
+                            </form>
+                        </div>
+                        <div><img src="jsp/homepage/images/comments.png" alt="">${post.commentCount} comments</div>
+                        <div><img src="jsp/homepage/images/share.png" alt="">35</div>
+                    </div>
+                    <div class="post-profile-picture">
+                        <img src="images/profile-pic.png " alt=""> <i class=" fas fa-caret-down"></i>
                     </div>
                 </div>
-                <div>
-                    <a href="#"><i class="fas fa-ellipsis-v"></i></a>
-                </div>
+                <form action="/posts" method="post">
+                    <input type="hidden" name="action" value="comment">
+                    <input type="hidden" name="postId" value="${post.id}">
+                    <div class="post-upload-textarea">
+                    <textarea name="commentContent" placeholder="Write a comment" cols="30"
+                              rows="1"></textarea>
+                            <button s>Comment</button>
+                    </div>
+                </form>
+                <c:forEach items="${comments}" var="comment">
+                    <div class="user-profile">
+                        <img src="${comment.getUser().getAvatar()}" alt="">
+                        <div>
+                            <p> ${comment.getUser().getFullName()}</p>
+                            <small>${comment.time}</small>
+                        </div>
+                        <div><p>${comment.content}</p></div>
+                    </div>
+                </c:forEach>
             </div>
-            <div class="status-field">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis dolores praesentium dicta
-                    laborum nihil accusantium odit laboriosam, sed sit autem! <a
-                            href="#">#This_Post_is_perfect!!!!</a></p>
-                <img src="images/feed-image-4.png" alt="">
 
-            </div>
-            <div class="post-reaction">
-                <div class="activity-icons">
-                    <div><img src="images/like-blue.png" alt="">120</div>
-                    <div><img src="images/comments.png" alt="">52</div>
-                    <div><img src="images/share.png" alt="">35</div>
-                </div>
-                <div class="post-profile-picture">
-                    <img src="images/profile-pic.png " alt=""> <i class=" fas fa-caret-down"></i>
-                </div>
-            </div>
-        </div>
+        </c:forEach>
         <button type="button" class="btn-LoadMore" onclick="LoadMoreToggle()">Load More</button>
     </div>
 
@@ -354,8 +300,12 @@
                         <img src="${user.avatar}" alt="avt">
                     </div>
                     <p><a href="/users?action=profile&id=${user.id}">${user.fullName}</a></p>
-                    <form action="/users?action=accept-request&id=${user.id}" method="post"><button>Accept</button></form>
-                    <form action="/users?action=delete-request&id=${user.id}" method="post"><button>Delete</button></form>
+                    <form action="/users?action=accept-request&id=${user.id}" method="post">
+                        <button>Accept</button>
+                    </form>
+                    <form action="/users?action=delete-request&id=${user.id}" method="post">
+                        <button>Cancel</button>
+                    </form>
                 </div>
             </c:forEach>
         </div>

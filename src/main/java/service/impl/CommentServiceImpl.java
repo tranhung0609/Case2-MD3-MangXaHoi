@@ -5,10 +5,6 @@ import model.User;
 import service.CommentService;
 
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,22 +25,53 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> findAll() {
-
-        return null;
+        List<Comment> comments = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement("SELECT * FROM comment")) {
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int postId = rs.getInt("post_id");
+                int userId = rs.getInt("user_id");
+                String time = rs.getString("time");
+                String content = rs.getString("content");
+                comments.add(new Comment(id,postService.findById(postId), userService.findById(userId), time, content));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return comments;
     }
 
     @Override
     public void add(Comment comment) throws SQLException {
-
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO comment (post_id, user_id, time, content) VALUES (?, ?, ?, ?)")) {
+            preparedStatement.setInt(1, comment.getPost().getId());
+            preparedStatement.setInt(2, comment.getUser().getId());
+            preparedStatement.setString(3, comment.getTime());
+            preparedStatement.setString(4,comment.getContent());
+            System.out.println(preparedStatement);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+        }
     }
 
     @Override
     public Comment findById(int id) {
+        List<Comment> comments = findAll();
+        for (Comment c : comments) {
+            if (c.getId() == id) {
+                return c;
+            }
+        }
         return null;
     }
 
     @Override
     public boolean update(Comment comment) {
+
         return false;
     }
 
@@ -65,7 +92,7 @@ public class CommentServiceImpl implements CommentService {
                 int userId = rs.getInt("user_id");
                 String content = rs.getString("content");
                 String time = rs.getString("time");
-                comments.add(new Comment(id, postId , userService.findById(userId), time, content));
+                comments.add(new Comment(id, postService.findById(postId) , userService.findById(userId), time, content));
             }
         } catch (SQLException e) {
             e.printStackTrace();
