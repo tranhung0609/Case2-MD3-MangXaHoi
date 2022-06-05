@@ -22,7 +22,8 @@
 <body>
 <nav class="navbar">
     <%--    <div class="nav-left"><img class="logo" src="images/logo.png" alt="">--%>
-    <div class="nav-left"><a href="jsp/homepage/homepage.jsp"><img class="logo" src="../../image/logofakebook.jpg"
+    <div class="nav-left">
+        <a href="jsp/homepage/homepage.jsp"><img class="logo" src="../../image/logofakebook.jpg"
                                                                    alt="logoFB"></a>
         <ul class="navlogo">
             <p style="color: #0a0a0a">

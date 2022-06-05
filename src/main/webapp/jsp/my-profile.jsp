@@ -136,10 +136,10 @@
                         <p>Went to Technical School & Collage</p>
                     </a>
                     <a href="#"><i class="fas fa-home"></i>
-                        <p>Lives in Noakhali, Chittagong</p>
+                        <p>Cộng đồng người Việt sinh sống tại Hà Nội</p>
                     </a>
                     <a href="#"><i class="fas fa-map-marker-alt"></i>
-                        <p>From Chittagong, Bangladesh</p>
+                        <p>Hà Tĩnh, Việt Nam</p>
                     </a>
                 </div>
             </div>
