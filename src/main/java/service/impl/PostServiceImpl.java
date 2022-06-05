@@ -85,6 +85,17 @@ public class PostServiceImpl implements PostService {
         return publicPosts;
     }
 
+    public List<Post> findAllPublicByUserId(int userId) {
+        List<Post> publicPosts = new ArrayList<>();
+        List<Post> posts = findAllPublic();
+        for (Post p : posts) {
+            if (p.getUser().getId() == userId) {
+                publicPosts.add(p);
+            }
+        }
+        return publicPosts;
+    }
+
     public List<Post> findAllOfFriends(int userId) {
         List<Post> postsOfFriends = new ArrayList<>();
         List<Post> posts = findAllPublic();
@@ -106,6 +117,7 @@ public class PostServiceImpl implements PostService {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement =
                      connection.prepareStatement("SELECT * FROM posts WHERE user_id = ? ORDER BY time DESC")) {
+            preparedStatement.setInt(1, userId);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");

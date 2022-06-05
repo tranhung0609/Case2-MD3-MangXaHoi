@@ -140,7 +140,7 @@
             </div>
             <div class="story story5">
                 <img src="../../image/tuệ%20đĩ.jpg" alt="">
-                <p>Thích Hương Tuệ</p>
+                <p>Thích Tuệ</p>
             </div>
         </div>
         <div class="write-post-container">
@@ -205,7 +205,7 @@
                             </form>
                         </div>
                         <div><img src="jsp/homepage/images/comments.png" alt="">${post.commentCount} comments</div>
-                        <div><img src="jsp/homepage/images/share.png" alt="">35</div>
+                        <div><img src="jsp/homepage/images/share.png" alt="">0</div>
                     </div>
                     <div class="post-profile-picture">
                         <img src="${currentUser.avatar}" alt=""> <i class=" fas fa-caret-down"></i>
@@ -233,7 +233,6 @@
                 </form>
 
             </div>
-
         </c:forEach>
         <button type="button" class="btn-LoadMore" onclick="LoadMoreToggle()">Load More</button>
     </div>

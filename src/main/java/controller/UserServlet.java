@@ -69,6 +69,8 @@ public class UserServlet extends HttpServlet {
         request.setAttribute("currentUser", currentUser);
         List<User> myFriends = friendShipService.findFriendsByUserId(currentUsersId);
         request.setAttribute("myFriends", myFriends);
+        List<Post> myPosts = postService.findAllMyPosts(UserServiceImpl.currentUsers.getId());
+        request.setAttribute("myPosts", myPosts);
         request.getRequestDispatcher("jsp/my-profile.jsp").forward(request, response);
     }
 
@@ -80,6 +82,8 @@ public class UserServlet extends HttpServlet {
         request.setAttribute("friends", friends);
         List<User> mutualFriends = friendShipService.findMutualByUserId(user.getId(), UserServiceImpl.currentUsers.getId());
         request.setAttribute("mutualFriends", mutualFriends);
+        List<Post> publicPosts = postService.findAllPublicByUserId(id);
+        request.setAttribute("publicPosts", publicPosts);
         request.getRequestDispatcher("jsp/profile.jsp").forward(request, response);
     }
 
