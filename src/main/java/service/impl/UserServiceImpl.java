@@ -1,4 +1,4 @@
-package service.impl;
+package service.Impl;
 
 import model.FriendShip;
 import model.Like;
