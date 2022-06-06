@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @WebServlet(name = "PostsServlet", value = "/posts")
 public class PostsServlet extends HttpServlet {

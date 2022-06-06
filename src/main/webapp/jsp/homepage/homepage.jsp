@@ -160,7 +160,6 @@
                 </div>
             </form>
         </div>
-
         <c:forEach items="${postsOfFriends}" var="post">
             <div class="status-field-container write-post-container">
                 <div class="user-profile-box">
