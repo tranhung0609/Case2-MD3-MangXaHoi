@@ -217,7 +217,7 @@
                 <div class="user-profile">
                     <img src="${user.avatar}" alt="">
                     <div>
-                        <p> Alex Carry</p>
+                        <p> ${user.fullName}</p>
                         <small>Public <i class="fas fa-caret-down"></i></small>
                     </div>
                 </div>
