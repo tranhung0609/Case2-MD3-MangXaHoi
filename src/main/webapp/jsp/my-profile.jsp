@@ -17,6 +17,14 @@
     <link rel="stylesheet" href="../../css/homepage.css">
     <title>Profile - Social Book</title>
     <script src="https://kit.fontawesome.com/ef7e2b893b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+            crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -36,21 +44,21 @@
         </div>
     </div>
     <div class="nav-right">
-        <form class="row form-group" action="/users" >
+        <form class="row form-group" action="/users">
             <div class="search-box">
                 <input type="hidden" name="action" value="my-profile">
                 <input type="hidden" name="user_id" value="${currentUser.id}">
                 <button style=" border: 0px"><img src="jsp/homepage/images/search.png" alt=""></button>
                 <input type="text" placeholder="Search" name="key">
             </div>
-       </form>
+        </form>
     </div>
     <div class="user-settings">
         <div class="profile-darkButton">
             <div class="user-profile">
                 <img src="jsp/homepage/images/profile-pic.png" alt="">
                 <div>
-                    <p> ${currentUser.fullName}</p>
+                    <p>${currentUser.fullName}</p>
                     <a href="/users?action=my-profile&id=${currentUser.id}">See your profile</a>
                 </div>
             </div>
@@ -116,7 +124,8 @@
         </div>
         <div class="right-dashboard-info">
             <div class="right-dashboard-info-top">
-                    <a class="btn btn-secondary" href="/users?action=edit-user&id=${user.id}"><i class="fas fa-user-plus"></i>Update</a>
+                <a class="btn btn-secondary" href="/users?action=edit-user&id=${user.id}"><i
+                        class="fas fa-user-plus"></i>Update</a>
                 <%--                <button type="button"><i class="far fa-envelope"></i>messages</button>--%>
             </div>
             <div class="right-div-single-logo"><a href="#"> <i class="fas fa-ellipsis-h"></i></a></div>
@@ -221,9 +230,20 @@
                                 <small>${post.time}</small>
                             </div>
                         </div>
-                        <div>
-                            <a href="#"><i class="fas fa-ellipsis-v"></i></a>
-                        </div>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" href="#">
+                                <i class="fas fa-ellipsis-v"></i> </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <form action="/users" method="post" id="delete${post.id}">
+                                    <input  type="hidden" name="action" value="delete-myPost">
+                                    <input type="hidden" name="id" value="${post.id}">
+                                    <a style="border: 0px" onclick="checkDelete(${post.id})" class="btn btn-outline-danger" href="#">Xóa</a>
+                                </form>
+                                <a class="dropdown-item" href="#">Sửa</a>
+
+                            </div>
+
+                        </li>
                     </div>
                     <div class="status-field">
                         <p>${post.content}</p>
@@ -407,6 +427,13 @@
     <p>&copy; Copyright 2021 - Socialbook All Rights Reserved</p>
 </footer>
 <script src="../../js/homepage.js"></script>
+<script>
+    function checkDelete(id) {
+        if (confirm("Bạn có chắc chắn muốn xóa!")) {
+            document.getElementById("delete" + id).submit();
+        }
+    }
+</script>
 </body>
 
 </html>

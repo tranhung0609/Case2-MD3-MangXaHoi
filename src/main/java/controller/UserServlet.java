@@ -111,6 +111,14 @@ public class UserServlet extends HttpServlet {
             action = "";
         }
         switch (action) {
+            case "delete-myPost":{
+                try {
+                    deleteMyPost(request,response);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
             case "edit-user":{
                 editUser(request,response);
                 break;
@@ -147,6 +155,11 @@ public class UserServlet extends HttpServlet {
         }
     }
 
+    private void deleteMyPost(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        postService.delete(id);
+        response.sendRedirect("/users?action=my-profile");
+    }
     private void editUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         String full_name = request.getParameter("full_name");

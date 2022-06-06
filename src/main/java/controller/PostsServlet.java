@@ -36,14 +36,7 @@ public class PostsServlet extends HttpServlet {
             action = "";
         }
         switch (action) {
-//            case "delete-myPost":{
-//                try {
-//                    deleteMyPost(request,response);
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                }
-//                break;
-//            }
+
             case "add-post":
                 try {
                     addPost(request, response);
@@ -68,11 +61,7 @@ public class PostsServlet extends HttpServlet {
         }
     }
 
-//    private void deleteMyPost(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-//        int id = Integer.parseInt(request.getParameter("id"));
-//        postService.delete(id);
-//        response.sendRedirect("/home");
-//    }
+
 
     private void comment(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         int postId = Integer.parseInt(request.getParameter("postId"));
