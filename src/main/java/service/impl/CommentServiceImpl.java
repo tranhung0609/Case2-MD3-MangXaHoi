@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommentServiceImpl implements CommentService {
-    PostServiceImpl postService = new PostServiceImpl();
     UserServiceImpl userService = new UserServiceImpl();
 
     protected Connection getConnection() {
@@ -28,7 +27,7 @@ public class CommentServiceImpl implements CommentService {
         List<Comment> comments = new ArrayList<>();
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM comment")) {
+                     connection.prepareStatement("SELECT * FROM comment ORDER BY time DESC")) {
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
@@ -36,7 +35,8 @@ public class CommentServiceImpl implements CommentService {
                 int userId = rs.getInt("user_id");
                 String time = rs.getString("time");
                 String content = rs.getString("content");
-                comments.add(new Comment(id,postService.findById(postId), userService.findById(userId), time, content));
+                comments.add(new Comment(id,postId, userService.findById(userId), time, content));
+//                comments.add(new Comment(id,postService.findById(postId), userService.findById(userId), time, content));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -48,7 +48,7 @@ public class CommentServiceImpl implements CommentService {
     public void add(Comment comment) throws SQLException {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO comment (post_id, user_id, time, content) VALUES (?, ?, ?, ?)")) {
-            preparedStatement.setInt(1, comment.getPost().getId());
+            preparedStatement.setInt(1, comment.getPostId());
             preparedStatement.setInt(2, comment.getUser().getId());
             preparedStatement.setString(3, comment.getTime());
             preparedStatement.setString(4,comment.getContent());
@@ -82,21 +82,27 @@ public class CommentServiceImpl implements CommentService {
 
     public List<Comment> findByPostId(int postId) {
         List<Comment> comments = new ArrayList<>();
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM comment WHERE post_id = ?")) {
-            preparedStatement.setInt(1, postId);
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                int userId = rs.getInt("user_id");
-                String content = rs.getString("content");
-                String time = rs.getString("time");
-                comments.add(new Comment(id, postService.findById(postId) , userService.findById(userId), time, content));
+        List<Comment> list = findAll();
+        for (Comment c: list) {
+            if (c.getPostId() == postId) {
+                comments.add(c);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+//        try (Connection connection = getConnection();
+//             PreparedStatement preparedStatement =
+//                     connection.prepareStatement("SELECT * FROM comment WHERE post_id = ?")) {
+//            preparedStatement.setInt(1, postId);
+//            ResultSet rs = preparedStatement.executeQuery();
+//            while (rs.next()) {
+//                int id = rs.getInt("id");
+//                int userId = rs.getInt("user_id");
+//                String content = rs.getString("content");
+//                String time = rs.getString("time");
+//                comments.add(new Comment(id, postService.findById(postId) , userService.findById(userId), time, content));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         return comments;
     }
 

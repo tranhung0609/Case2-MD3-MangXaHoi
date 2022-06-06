@@ -53,6 +53,18 @@ public class Post {
         this.content = content;
     }
 
+    public Post(int id, User user, String time, int commentCount, int likeCount, ViewMode viewMode, String image, String content, List<Comment> comments) {
+        this.id = id;
+        this.user = user;
+        this.time = time;
+        this.commentCount = commentCount;
+        this.likeCount = likeCount;
+        this.viewMode = viewMode;
+        this.image = image;
+        this.content = content;
+        this.comments = comments;
+    }
+
     public int getId() {
         return id;
     }

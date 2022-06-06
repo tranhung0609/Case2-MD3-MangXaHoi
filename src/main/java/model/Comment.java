@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 
 public class Comment {
     private int id;
-//    private int postId;
-    private Post post;
+    private int postId;
+//    private Post post;
     private User user;
     private String time;
     private String content;
@@ -14,34 +14,35 @@ public class Comment {
 
     }
 
-    public Comment(int id, Post post, User user, String time, String content) {
-        this.id = id;
-        this.post = post;
-        this.user = user;
-        this.time = time;
-        this.content = content;
-    }
-
-    public Comment(Post post, User user, String time, String content) {
-        this.post = post;
-        this.user = user;
-        this.time = time;
-        this.content = content;
-    }
-//    public Comment(int postId, User user, String time, String content) {
-//        this.postId = postId;
+//    public Comment(int id, Post post, User user, String time, String content) {
+//        this.id = id;
+//        this.post = post;
 //        this.user = user;
 //        this.time = time;
 //        this.content = content;
 //    }
 //
-//    public Comment(int id, int postId, User user, String time, String content) {
-//        this.id = id;
-//        this.postId = postId;
+//    public Comment(Post post, User user, String time, String content) {
+//        this.post = post;
 //        this.user = user;
 //        this.time = time;
 //        this.content = content;
 //    }
+
+    public Comment(int postId, User user, String time, String content) {
+        this.postId = postId;
+        this.user = user;
+        this.time = time;
+        this.content = content;
+    }
+
+    public Comment(int id, int postId, User user, String time, String content) {
+        this.id = id;
+        this.postId = postId;
+        this.user = user;
+        this.time = time;
+        this.content = content;
+    }
 
     public int getId() {
         return id;
@@ -51,12 +52,20 @@ public class Comment {
         this.id = id;
     }
 
-    public Post getPost() {
-        return post;
+//    public Post getPost() {
+//        return post;
+//    }
+//
+//    public void setPost(Post post) {
+//        this.post = post;
+//    }
+
+    public int getPostId() {
+        return postId;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
+    public void setPostId(int postId) {
+        this.postId = postId;
     }
 
     public User getUser() {

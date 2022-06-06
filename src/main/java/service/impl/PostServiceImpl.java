@@ -1,5 +1,6 @@
 package service.impl;
 
+import model.Comment;
 import model.Post;
 import model.User;
 import service.CommentService;
@@ -15,7 +16,6 @@ public class PostServiceImpl implements PostService {
     UserServiceImpl userService = new UserServiceImpl();
     ViewModeServiceImpl viewModeService = new ViewModeServiceImpl();
     FriendShipServiceImpl friendShipService = new FriendShipServiceImpl();
-
 
     protected Connection getConnection() {
         Connection connection = null;
@@ -44,8 +44,8 @@ public class PostServiceImpl implements PostService {
                 int viewModeId = rs.getInt("view_mode_id");
                 String image = rs.getString("image");
                 String content = rs.getString("content");
-
-                posts.add(new Post(id, userService.findById(userId), time, commentCount, likeCount, viewModeService.findById(viewModeId), image, content));
+                List<Comment> comments = findByPostId(id);
+                posts.add(new Post(id, userService.findById(userId), time, commentCount, likeCount, viewModeService.findById(viewModeId), image, content, comments));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,11 +53,43 @@ public class PostServiceImpl implements PostService {
         return posts;
     }
 
+    public List<Comment> findByPostId(int postId) {
+        List<Comment> comments = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement("SELECT * FROM comment WHERE post_id = ?")) {
+            preparedStatement.setInt(1, postId);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int userId = rs.getInt("user_id");
+                String content = rs.getString("content");
+                String time = rs.getString("time");
+                comments.add(new Comment(id, postId , userService.findById(userId), time, content));
+//                comments.add(new Comment(id, findById(postId) , userService.findById(userId), time, content));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return comments;
+    }
+
     public List<Post> findAllPublic() {
         List<Post> publicPosts = new ArrayList<>();
         List<Post> posts = findAll();
         for (Post p : posts) {
             if (p.getViewMode().getId() == 1) {
+                publicPosts.add(p);
+            }
+        }
+        return publicPosts;
+    }
+
+    public List<Post> findAllPublicByUserId(int userId) {
+        List<Post> publicPosts = new ArrayList<>();
+        List<Post> posts = findAllPublic();
+        for (Post p : posts) {
+            if (p.getUser().getId() == userId) {
                 publicPosts.add(p);
             }
         }
@@ -79,12 +111,14 @@ public class PostServiceImpl implements PostService {
         }
         return postsOfFriends;
     }
-
-    public List<Post> findAllMyPosts(int userId) {
+    public List<Post> findByContent(int userId,String key) {
         List<Post> posts = new ArrayList<>();
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM posts WHERE user_id = ? ORDER BY time DESC")) {
+                     connection.prepareStatement("SELECT * FROM posts WHERE user_id = ? and content like ? ORDER BY time DESC")) {
+            System.out.println(preparedStatement);
+            preparedStatement.setInt(1,userId);
+            preparedStatement.setString(2, '%' + key +'%');
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
@@ -94,8 +128,32 @@ public class PostServiceImpl implements PostService {
                 int viewModeId = rs.getInt("view_mode_id");
                 String image = rs.getString("image");
                 String content = rs.getString("content");
+                List<Comment> comments = findByPostId(id);
+                posts.add(new Post(id, userService.findById(userId), time, commentCount, likeCount, viewModeService.findById(viewModeId), image, content, comments));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return posts;
+    }
 
-                posts.add(new Post(id, userService.findById(userId), time, commentCount, likeCount, viewModeService.findById(viewModeId), image, content));
+    public List<Post> findAllMyPosts(int userId) {
+        List<Post> posts = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement("SELECT * FROM posts WHERE user_id = ? ORDER BY time DESC")) {
+            preparedStatement.setInt(1, userId);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String time = rs.getString("time");
+                int commentCount = rs.getInt("comment_count");
+                int likeCount = rs.getInt("like_count");
+                int viewModeId = rs.getInt("view_mode_id");
+                String image = rs.getString("image");
+                String content = rs.getString("content");
+                List<Comment> comments = findByPostId(id);
+                posts.add(new Post(id, userService.findById(userId), time, commentCount, likeCount, viewModeService.findById(viewModeId), image, content, comments));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -133,12 +191,33 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public boolean update(Post post) {
-        return false;
+        boolean rowUpdate = false;
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement =
+                     connection.prepareStatement("UPDATE posts SET time = ?, comment_count = ?, like_count = ?, view_mode_id = ?, image = ?, content = ? WHERE id = ?;")) {
+            preparedStatement.setString(1, post.getTime());
+            preparedStatement.setInt(2, post.getCommentCount ());
+            preparedStatement.setInt(3, post.getLikeCount());
+            preparedStatement.setInt(4, post.getViewMode().getId());
+            preparedStatement.setString(5, post.getImage());
+            preparedStatement.setString(6, post.getContent());
+            preparedStatement.setInt(7, post.getId());
+            rowUpdate = preparedStatement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rowUpdate;
     }
 
     @Override
     public boolean delete(int id) throws SQLException {
-        return false;
+        boolean rowDelete;
+        try(Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("delete from posts where id = ?")) {
+            preparedStatement.setInt(1,id);
+            rowDelete = preparedStatement.executeUpdate()>0;
+        }
+        return rowDelete;
     }
 
     @Override

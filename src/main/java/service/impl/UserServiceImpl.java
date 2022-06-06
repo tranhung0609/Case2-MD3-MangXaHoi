@@ -111,8 +111,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean update(User account) {
-        return false;
+    public boolean update(User user) {
+        boolean rowUpdate = false;
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE user set  full_name = ?, email = ?, avatar = ?, date_of_birth = ?, password = ?  where id =? ")) {
+            preparedStatement.setString(1, user.getFullName());
+            preparedStatement.setString(2  ,user.getEmail());
+            preparedStatement.setString(3, user.getAvatar());
+            preparedStatement.setString(4,user.getDateOfBirth());
+            preparedStatement.setString(5, user.getPassword());
+            preparedStatement.setInt(6, user.getId());
+            rowUpdate = preparedStatement.executeUpdate()>0;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return rowUpdate;
     }
 
     public boolean checkRegister(User user) throws SQLException {

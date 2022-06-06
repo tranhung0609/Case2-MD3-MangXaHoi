@@ -17,6 +17,10 @@
     <link rel="stylesheet" href="../../css/homepage.css">
     <title>Profile - Social Book</title>
     <script src="https://kit.fontawesome.com/ef7e2b893b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
@@ -36,14 +40,10 @@
         </div>
     </div>
     <div class="nav-right">
-        <form class="row form-group" action="/users" >
-            <div class="search-box">
-                <input type="hidden" name="action" value="my-profile">
-                <input type="hidden" name="user_id" value="${currentUser.id}">
-                <button style=" border: 0px"><img src="jsp/homepage/images/search.png" alt=""></button>
-                <input type="text" placeholder="Search" name="key">
-            </div>
-       </form>
+        <div class="search-box">
+            <img src="jsp/homepage/images/search.png" alt="">
+            <input type="text" placeholder="Search">
+        </div>
     </div>
     <div class="user-settings">
         <div class="profile-darkButton">
@@ -116,8 +116,10 @@
         </div>
         <div class="right-dashboard-info">
             <div class="right-dashboard-info-top">
-                    <a class="btn btn-secondary" href="/users?action=edit-user&id=${user.id}"><i class="fas fa-user-plus"></i>Update</a>
-                <%--                <button type="button"><i class="far fa-envelope"></i>messages</button>--%>
+<%--                <form action="?????" method="post">--%>
+<%--                    <a class="btn btn-secondary" href=""><i class="fas fa-user-plus"></i>Update</a>--%>
+<%--                </form>--%>
+                <%--                <button type="button"><i class="far fa-envelope"></i> messages</button>--%>
             </div>
             <div class="right-div-single-logo"><a href="#"> <i class="fas fa-ellipsis-h"></i></a></div>
         </div>
@@ -189,88 +191,155 @@
             </div>
 
         </div>
+<%--        <form action="/users" method="post">--%>
+<%--            <input  type="hidden" name="action" value="edit-user">--%>
+<%--            <input type="hidden" name="id" value="${currentUser.id}">--%>
+<%--            <div>--%>
+<%--                <input class="form-control" type="text" placeholder="full_name" name="full_name">--%>
+<%--            </div>--%>
+<%--            <div style="width: 100%;">--%>
+<%--                <input type="text" placeholder="email" name="email">--%>
+
+<%--            </div>--%>
+<%--            <div>--%>
+<%--                <input type="text" placeholder="avatar" name="avatar">--%>
+<%--            </div>--%>
+<%--            <div style="">--%>
+<%--                <input type="date" placeholder="Date-of-birth" name="date_of_birth">--%>
+<%--                <input type="text" placeholder="password" name="password">--%>
+<%--                <button>Cập nhập thông tin</button>--%>
+<%--            </div>--%>
+
+<%--        </form>--%>
+        <form style="margin-right: auto" action="/users" method="post">
+            <input  type="hidden" name="action" value="edit-user">
+            <input type="hidden" name="id" value="${currentUser.id}">
+            <div  class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputEmail4">Email</label>
+                    <input type="text" class="form-control" id="inputEmail4" name="email">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputPassword4">Password</label>
+                    <input type="password" class="form-control" id="inputPassword4" name="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputAddress">FullName</label>
+                <input type="text" class="form-control" id="inputAddress" placeholder="Full Name" name="full_name">
+            </div>
+            <div class="form-group">
+                <label for="inputAddress2">Avatar</label>
+                <input type="text" class="form-control" id="inputAddress2" placeholder="Avatar" name="avatar">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputCity">Date of birth</label>
+                    <input type="date" class="form-control" id="inputCity" name="date_of_birth">
+                </div>
+<%--                <div class="form-group col-md-4">--%>
+<%--                    <label for="inputState">State</label>--%>
+<%--                    <select id="inputState" class="form-control">--%>
+<%--                        <option selected>Choose...</option>--%>
+<%--                        <option>...</option>--%>
+<%--                    </select>--%>
+<%--                </div>--%>
+<%--                <div class="form-group col-md-2">--%>
+<%--                    <label for="inputZip">Zip</label>--%>
+<%--                    <input type="text" class="form-control" id="inputZip">--%>
+<%--                </div>--%>
+            </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck">
+                    <label class="form-check-label" for="gridCheck">
+                    </label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Confirm</button>
+        </form>
 
         <!-- main-content------- -->
 
-        <div class="content-area profile-content-area">
-            <div class="write-post-container">
-                <div class="user-profile">
-                    <img src="${currentUser.avatar}" alt="">
-                    <div>
-                        <p> ${currentUser.fullName}</p>
-                        <small>Public <i class="fas fa-caret-down"></i></small>
-                    </div>
-                </div>
+<%--        <div class="content-area profile-content-area">--%>
+<%--            <div class="write-post-container">--%>
+<%--                <div class="user-profile">--%>
+<%--                    <img src="${currentUser.avatar}" alt="">--%>
+<%--                    <div>--%>
+<%--                        <p> ${currentUser.fullName}</p>--%>
+<%--                        <small>Public <i class="fas fa-caret-down"></i></small>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
 
-                <div class="post-upload-textarea">
-                    <textarea name="" placeholder="What's on your mind, Alex?" id="" cols="30" rows="3"></textarea>
-                    <div class="add-post-links">
-                        <a href="#"><img src="jsp/homepage/images/live-video.png" alt="">Live Video</a>
-                        <a href="#"><img src="jsp/homepage/images/photo.png" alt="">Photo/Video</a>
-                        <a href="#"><img src="jsp/homepage/images/feeling.png" alt="">Feeling Activity</a>
-                    </div>
-                </div>
-            </div>
-            <c:forEach items="${myPosts}" var="post">
-                <div class="status-field-container write-post-container">
-                    <div class="user-profile-box">
-                        <div class="user-profile">
-                            <img src="${post.getUser().getAvatar()}" alt="">
-                            <div>
-                                <p> ${post.getUser().getFullName()}</p>
-                                <small>${post.time}</small>
-                            </div>
-                        </div>
-                        <div>
-                            <a href="#"><i class="fas fa-ellipsis-v"></i></a>
-                        </div>
-                    </div>
-                    <div class="status-field">
-                        <p>${post.content}</p>
-                        <img src="${post.image}" alt="">
-                    </div>
-                    <div class="post-reaction">
-                        <div class="activity-icons">
-                            <div>
-                                <form action="/posts" method="post">
-                                    <input type="hidden" name="action" value="like">
-                                    <input type="hidden" name="postId" value="${post.id}">
-                                    <button>
-                                        <img src="jsp/homepage/images/like.png" alt="">
-                                    </button>
-                                        ${post.likeCount} likes
-                                </form>
-                            </div>
-                            <div><img src="jsp/homepage/images/comments.png" alt="">${post.commentCount} comments</div>
-                            <div><img src="jsp/homepage/images/share.png" alt="">35</div>
-                        </div>
-                        <div class="post-profile-picture">
-                            <img src="${currentUser.avatar}" alt=""> <i class=" fas fa-caret-down"></i>
-                        </div>
-                    </div>
-                    <c:forEach items="${post.getComments()}" var="comment">
-                        <div>
-                            <div class="user-profile"><img src="${comment.getUser().getAvatar()}" alt="">
-                                <div>
-                                    <p> ${comment.getUser().getFullName()}</p>
-                                    <small>${comment.time}</small>
-                                </div>
-                            </div>
-                            <div class="status-field"><p>${comment.content}</p></div>
-                        </div>
-                    </c:forEach>
-                    <form action="/posts" method="post">
-                        <input type="hidden" name="action" value="comment">
-                        <input type="hidden" name="postId" value="${post.id}">
-                        <div class="post-upload-textarea">
-                    <textarea name="commentContent" placeholder="Write a comment" cols="30"
-                              rows="1"></textarea>
-                            <button>Comment</button>
-                        </div>
-                    </form>
+<%--                <div class="post-upload-textarea">--%>
+<%--                    <textarea name="" placeholder="What's on your mind, Alex?" id="" cols="30" rows="3"></textarea>--%>
+<%--                    <div class="add-post-links">--%>
+<%--                        <a href="#"><img src="jsp/homepage/images/live-video.png" alt="">Live Video</a>--%>
+<%--                        <a href="#"><img src="jsp/homepage/images/photo.png" alt="">Photo/Video</a>--%>
+<%--                        <a href="#"><img src="jsp/homepage/images/feeling.png" alt="">Feeling Activity</a>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--            <c:forEach items="${myPosts}" var="post">--%>
+<%--                <div class="status-field-container write-post-container">--%>
+<%--                    <div class="user-profile-box">--%>
+<%--                        <div class="user-profile">--%>
+<%--                            <img src="${post.getUser().getAvatar()}" alt="">--%>
+<%--                            <div>--%>
+<%--                                <p> ${post.getUser().getFullName()}</p>--%>
+<%--                                <small>${post.time}</small>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                        <div>--%>
+<%--                            <a href="#"><i class="fas fa-ellipsis-v"></i></a>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                    <div class="status-field">--%>
+<%--                        <p>${post.content}</p>--%>
+<%--                        <img src="${post.image}" alt="">--%>
+<%--                    </div>--%>
+<%--                    <div class="post-reaction">--%>
+<%--                        <div class="activity-icons">--%>
+<%--                            <div>--%>
+<%--                                <form action="/posts" method="post">--%>
+<%--                                    <input type="hidden" name="action" value="like">--%>
+<%--                                    <input type="hidden" name="postId" value="${post.id}">--%>
+<%--                                    <button>--%>
+<%--                                        <img src="jsp/homepage/images/like.png" alt="">--%>
+<%--                                    </button>--%>
+<%--                                        ${post.likeCount} likes--%>
+<%--                                </form>--%>
+<%--                            </div>--%>
+<%--                            <div><img src="jsp/homepage/images/comments.png" alt="">${post.commentCount} comments</div>--%>
+<%--                            <div><img src="jsp/homepage/images/share.png" alt="">35</div>--%>
+<%--                        </div>--%>
+<%--                        <div class="post-profile-picture">--%>
+<%--                            <img src="${currentUser.avatar}" alt=""> <i class=" fas fa-caret-down"></i>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                    <c:forEach items="${post.getComments()}" var="comment">--%>
+<%--                        <div>--%>
+<%--                            <div class="user-profile"><img src="${comment.getUser().getAvatar()}" alt="">--%>
+<%--                                <div>--%>
+<%--                                    <p> ${comment.getUser().getFullName()}</p>--%>
+<%--                                    <small>${comment.time}</small>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
+<%--                            <div class="status-field"><p>${comment.content}</p></div>--%>
+<%--                        </div>--%>
+<%--                    </c:forEach>--%>
+<%--                    <form action="/posts" method="post">--%>
+<%--                        <input type="hidden" name="action" value="comment">--%>
+<%--                        <input type="hidden" name="postId" value="${post.id}">--%>
+<%--                        <div class="post-upload-textarea">--%>
+<%--                    <textarea name="commentContent" placeholder="Write a comment" cols="30"--%>
+<%--                              rows="1"></textarea>--%>
+<%--                            <button>Comment</button>--%>
+<%--                        </div>--%>
+<%--                    </form>--%>
 
-                </div>
-            </c:forEach>
+<%--                </div>--%>
+<%--            </c:forEach>--%>
             <%--            <div class="status-field-container write-post-container">--%>
             <%--                <div class="user-profile-box">--%>
             <%--                    <div class="user-profile">--%>
@@ -399,7 +468,7 @@
             <%--                    </div>--%>
             <%--                </div>--%>
             <%--            </div>--%>
-            <button type="button" class="btn-LoadMore" onclick="LoadMoreToggle()">Load More</button>
+<%--            <button type="button" class="btn-LoadMore" onclick="LoadMoreToggle()">Load More</button>--%>
         </div>
     </div>
 </div>
