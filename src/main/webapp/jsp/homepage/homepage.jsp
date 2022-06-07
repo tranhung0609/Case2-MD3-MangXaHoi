@@ -18,7 +18,11 @@
     <script src="https://kit.fontawesome.com/ef7e2b893b.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../../css/homepage.css">
 </head>
-
+<style>
+    a {
+        text-decoration: none!important;
+    }
+</style>
 <body>
 <nav class="navbar">
     <div class="nav-left"><a href="/users?action=homepage"><img class="logo" src="../../image/logofakebook.jpg"
