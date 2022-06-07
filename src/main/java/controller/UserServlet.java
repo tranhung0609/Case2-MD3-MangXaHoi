@@ -171,7 +171,7 @@ public class UserServlet extends HttpServlet {
     private void register(HttpServletRequest request, HttpServletResponse response) throws ParseException, SQLException, ServletException, IOException {
         String name = request.getParameter("full_name");
         String email = request.getParameter("email");
-        String avatar = "image/zyro-image.jpg";
+        String avatar = "image/anhdaidien.jpg";
         String date_of_birth = request.getParameter("date_of_birth");
         String password = request.getParameter("password");
         User user = new User(name, email, avatar, date_of_birth, password);
@@ -185,7 +185,7 @@ public class UserServlet extends HttpServlet {
     }
 
     private void login(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("jsp/homepage/homepage.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp/homepage/homepage.jsp");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         if (userService.checkLogin(email, password)) {

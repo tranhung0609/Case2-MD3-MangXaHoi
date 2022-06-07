@@ -9,6 +9,7 @@
     <title>FakeBook</title>
     <script src="https://kit.fontawesome.com/ef7e2b893b.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
+    <script src="../../js/profile.js"></script>
 
 </head>
 
@@ -18,9 +19,9 @@
             <a href="#"><img class="logo" src="../../image/logofakebook.jpg"></a>
 <!--            <img class="logo" src="../../image/logofakebook.jpg">-->
             <ul class="navlogo">
-                <li><img src="images/notification.png"></li>
-                <li><img src="images/inbox.png"></li>
-                <li><img src="images/video.png"></li>
+                <li><a href="#"><img src="images/notification.png"></a></li>
+                <li><a href="#"><img src="images/inbox.png"></a></li>
+                <li><a href="#"><img src="images/video.png"></a></li>
             </ul>
         </div>
         <div class="nav-right">
@@ -29,14 +30,16 @@
                 <input type="text" placeholder="Search">
             </div>
             <div class="profile-image online" onclick="UserSettingToggle()">
-                <img src="images/profile-pic.png" alt="">
+                <img src="https://scontent.fhan15-1.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=H49NcwERcacAX-YBthY&_nc_ht=scontent.fhan15-1.fna&oh=00_AT_UhVvTxjL5KSMYfEnCvl355Chk5YGvZw-12_-qkxQHpQ&oe=62C28EF8
+" alt="">
             </div>
 
         </div>
         <div class="user-settings">
             <div class="profile-darkButton">
                 <div class="user-profile">
-                    <img src="images/profile-pic.png" alt="">
+                    <img src="https://scontent.fhan15-1.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=H49NcwERcacAX-YBthY&_nc_ht=scontent.fhan15-1.fna&oh=00_AT_UhVvTxjL5KSMYfEnCvl355Chk5YGvZw-12_-qkxQHpQ&oe=62C28EF8
+" alt="">
                     <div>
                         <p> Alex Carry</p>
                         <a href="#">See your profile</a>
@@ -85,7 +88,8 @@
         <img src="images/cover.png" class="coverImage" alt="">
         <div class="dashboard">
             <div class="left-dashboard">
-                <img src="images/profile.png" class="dashboard-img" alt="">
+                <img src="https://scontent.fhan15-1.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=H49NcwERcacAX-YBthY&_nc_ht=scontent.fhan15-1.fna&oh=00_AT_UhVvTxjL5KSMYfEnCvl355Chk5YGvZw-12_-qkxQHpQ&oe=62C28EF8
+" class="dashboard-img" alt="">
                 <div class="left-dashboard-info">
                     <h3>Jack Nichoson</h3>
                     <p>120 Friends - 20 mutuals</p>
@@ -99,8 +103,7 @@
             </div>
             <div class="right-dashboard-info">
                 <div class="right-dashboard-info-top">
-
-                    <button type="button"><i class="fas fa-user-plus"></i> Friends</button>
+                    <button onclick="addFriend()"  type="button"><i id="addThumb" class="fas fa-user-plus"></i> Friends</button>
                     <button type="button" style="background-color: #f0f0f0; color: #0a0a0a"><i class="far fa-envelope"></i> messages</button>
                 </div>
                 <div class="right-div-single-logo"> <a href="#"> <i class="fas fa-ellipsis-h"></i></a></div>
@@ -209,10 +212,11 @@
             <div class="content-area profile-content-area">
                 <div class="write-post-container">
                     <div class="user-profile">
-                        <img src="images/profile-pic.png" alt="">
+                        <img src="https://scontent.fhan15-1.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=H49NcwERcacAX-YBthY&_nc_ht=scontent.fhan15-1.fna&oh=00_AT_UhVvTxjL5KSMYfEnCvl355Chk5YGvZw-12_-qkxQHpQ&oe=62C28EF8
+" alt="">
                         <div>
                             <p> Alex Carry</p>
-                            <small>Public <i class="fas fa-caret-down"></i></small>
+<!--                            <small>Public <i class="fas fa-caret-down"></i></small>-->
                         </div>
                     </div>
 

@@ -23,7 +23,6 @@ body {
     background: var(--body-color);
     transition: background 0.3s;
 }
-
 nav.navbar{
     display: flex;
     align-items: center;
@@ -60,8 +59,10 @@ ul.navlogo li img {
 }
 
 .profile-image img {
-    width: 40px;
-    border-radius: 100%;
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
 }
 
 
@@ -123,6 +124,7 @@ ul.navlogo li img {
     top: 70px;
     align-self: flex-start;
 }
+
 
 .right-sidebar {
     flex-basis: 25%;
@@ -362,10 +364,10 @@ img.advertisement-image {
 }
 
 .user-profile img {
-    width: 45px;
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    margin-right: 10px;
-
 }
 
 .user-profile p {
@@ -737,4 +739,10 @@ img.coverImage {
 }
 .gallery-photos-rowFirst div p {
     font-size: 14px;
+}
+.user-avatar{
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
 }

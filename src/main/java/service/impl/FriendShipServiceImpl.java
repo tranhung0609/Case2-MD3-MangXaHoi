@@ -14,7 +14,7 @@ public class FriendShipServiceImpl implements FriendShipService {
 
     static String jdbcURL = "jdbc:mysql://localhost:3306/social_network_case_md3?useSSL=false";
     static String jdbcUsername = "root";
-    static String jdbcPassword = "1234";
+    static String jdbcPassword = "123456";
 
     protected Connection getConnection() {
         Connection connection = null;
