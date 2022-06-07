@@ -172,7 +172,7 @@
                     <div class="add-post-links">
                         <input type="text" name="image" placeholder="Insert your image">
                         <%--                        <a href="#"><img src="images/photo.png" alt="">Photo/Video</a>--%>
-                        <button>Post</button>
+                        <button style=" border: 0px ;">Post</button>
                     </div>
                 </div>
             </form>
