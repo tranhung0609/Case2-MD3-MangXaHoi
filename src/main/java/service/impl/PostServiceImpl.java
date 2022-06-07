@@ -3,12 +3,9 @@ package service.impl;
 import model.Comment;
 import model.Post;
 import model.User;
-import service.CommentService;
 import service.PostService;
 
 import java.sql.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 

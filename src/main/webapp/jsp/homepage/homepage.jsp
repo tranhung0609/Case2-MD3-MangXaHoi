@@ -18,7 +18,12 @@
     <link rel="stylesheet" href="../../css/homepage.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
 </head>
-
+<style>
+    a {
+        text-decoration: none!important;
+        color: #0a0a0a;
+    }
+</style>
 <body>
 <nav class="navbar">
     <div class="nav-left"><a href="/users?action=homepage"><img class="logo" src="../../image/logofakebook.jpg"
@@ -86,7 +91,7 @@
 <%--NHẬP ĐƯỜNG DẪN ĐĂNG XUẤT--%>
         <div class="settings-links">
             <img src="jsp/homepage/images/logout.png" alt="" class="settings-icon">
-            <a href="">Logout <img src="jsp/homepage/images/arrow.png" alt=""></a>
+            <a href="jsp/login-register/login.jsp">Logout <img src="jsp/homepage/images/arrow.png" alt=""></a>
         </div>
 
     </div>
@@ -156,7 +161,7 @@
                     <source src="../../video/r1.mp4" type="video/mp4">
                 </video>
                 <img src="../../image/tuệ%20đĩ.jpg" alt="">
-                <p>Thích Hương Tuệ</p>
+                <p>Thích Tuệ</p>
             </div>
         </div>
         <div class="write-post-container">
@@ -168,7 +173,7 @@
                     <div>
                         <p> ${currentUser.fullName}</p>
                         <small>
-                            <select name="viewModeId" class="form-control" style="position: absolute; left: 75px"
+                            <select name="viewModeId" class="form-control" style="position: absolute; left: 75px; "
                                     aria-label="Default select example">
                                 <c:forEach items="${viewModes}" var="viewMode">
                                     <option value="${viewMode.id}">${viewMode.name}</option>
@@ -188,9 +193,9 @@
 <%--                    </div>--%>
 <%--                </div>--%>
                 <div class="post-upload-textarea">
-                    <textarea name="" placeholder="What's on your mind, ${currentUser.fullName} ?" id="" cols="30" rows="3"></textarea>
+                    <textarea name="content" placeholder="What's on your mind, ${currentUser.fullName} ?" id="" cols="30" rows="3"></textarea>
                     <div class="add-post-links">
-                        <a href="#" style="width: 30px;">Post</a>
+                        <button style="border: none ; background-color: white; color: grey">Post</button>
                         <a href="#"><img src="jsp/homepage/images/live-video.png" alt="">Live Video</a>
                         <a href="#"><img src="jsp/homepage/images/photo.png" alt="" >Photo/Video</a>
                         <a href="#"><img src="jsp/homepage/images/feeling.png" alt="">Feeling Activity</a>
@@ -263,6 +268,25 @@
     <!-- sidebar------------ -->
     <div class="right-sidebar">
         <div>
+        <div class="heading-link profile-heading-link">
+            <h4>Friend Request</h4>
+        </div>
+        <c:forEach items="${friendRequests}" var="user">
+            <div class="online-list">
+                <div class="online">
+                    <img src="${user.avatar}" alt="avt" style="width: 50px;height: 49px">
+                </div>
+                <p><a style="text-decoration: none" href="/users?action=profile&id=${user.id}">${user.fullName}</a></p>
+                <form action="/users?action=accept-request&id=${user.id}" method="post">
+                    <button style="margin: 3px; background-color:#1876f2; border-radius: 20%; border: solid dimgrey 0.75px">Accept</button>
+                </form>
+                <form action="/users?action=delete-request&id=${user.id}" method="post">
+                    <button style="margin: 3px; border-radius: 20%; border: solid dimgrey 0.75px">Cancel</button>
+                </form>
+            </div>
+        </c:forEach>
+    </div>
+        <div>
             <div class="heading-link profile-heading-link">
                 <h4>Suggestions for making friends</h4>
             </div>
@@ -275,25 +299,7 @@
                 </div>
             </c:forEach>
         </div>
-        <div>
-            <div class="heading-link profile-heading-link">
-                <h4>Friend Request</h4>
-            </div>
-            <c:forEach items="${friendRequests}" var="user">
-                <div class="online-list">
-                    <div class="online">
-                        <img src="${user.avatar}" alt="avt" style="width: 50px;height: 49px">
-                    </div>
-                    <p><a style="text-decoration: none" href="/users?action=profile&id=${user.id}">${user.fullName}</a></p>
-                    <form action="/users?action=accept-request&id=${user.id}" method="post">
-                        <button>Accept</button>
-                    </form>
-                    <form action="/users?action=delete-request&id=${user.id}" method="post">
-                        <button>Cancel</button>
-                    </form>
-                </div>
-            </c:forEach>
-        </div>
+
     </div>
 </div>
 <footer id="footer">

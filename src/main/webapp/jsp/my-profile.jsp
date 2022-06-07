@@ -18,7 +18,12 @@
     <title>Profile - Social Book</title>
     <script src="https://kit.fontawesome.com/ef7e2b893b.js" crossorigin="anonymous"></script>
 </head>
-
+<style>
+    a {
+        text-decoration: none!important;
+        color: #0a0a0a;
+    }
+</style>
 <body>
 <nav class="navbar">
     <%--    <div class="nav-left"><img class="logo" src="images/logo.png" alt="">--%>
@@ -80,7 +85,7 @@
 
         <div class="settings-links">
             <img src="jsp/homepage/images/logout.png" alt="" class="settings-icon">
-            <a href="#">Logout <img src="jsp/homepage/images/arrow.png" alt=""></a>
+            <a href="jsp/login-register/login.jsp">Logout <img src="jsp/homepage/images/arrow.png" alt=""></a>
         </div>
 
     </div>
