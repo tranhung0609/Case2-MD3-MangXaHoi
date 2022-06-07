@@ -48,9 +48,9 @@
     <div class="user-settings">
         <div class="profile-darkButton">
             <div class="user-profile">
-                <img src="jsp/homepage/images/profile-pic.png" alt="">
+                <img src="${currentUser.avatar}" alt="">
                 <div>
-                    <p> Alex Carry</p>
+                    <p> ${currentUser.fullName}</p>
                     <a href="#">See your profile</a>
                 </div>
             </div>
@@ -119,7 +119,15 @@
                 <form action="/users" method="post">
                     <input type="hidden" name="action" value="send-invitation">
                     <input type="hidden" name="id" value="${user.id}">
+                    <c:if test="${relationship == 0}">
                     <button><i class="fas fa-user-plus"></i> Friends</button>
+                    </c:if>
+                    <c:if test="${relationship == 1}">
+                        <button><i class="fas fa-user-plus"></i> Unfriend</button>
+                    </c:if>
+                    <c:if test="${relationship == 2}">
+                        <button><i class="fas fa-user-plus"></i> Sending</button>
+                    </c:if>
                 </form>
 <%--                <button type="button"><i class="far fa-envelope"></i> messages</button>--%>
             </div>
@@ -213,23 +221,53 @@
         <!-- main-content------- -->
 
         <div class="content-area profile-content-area">
-            <div class="write-post-container">
-                <div class="user-profile">
-                    <img src="${user.avatar}" alt="">
-                    <div>
-                        <p> Alex Carry</p>
-                        <small>Public <i class="fas fa-caret-down"></i></small>
-                    </div>
-                </div>
+<%--            <div class="write-post-container">--%>
+<%--                <div class="user-profile">--%>
+<%--                    <img src="${user.avatar}" alt="">--%>
+<%--                    <div>--%>
+<%--                        <p> ${currentUser.fullName}</p>--%>
+<%--                        <small>Public <i class="fas fa-caret-down"></i></small>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
 
-                <div class="post-upload-textarea">
-                    <textarea name="" placeholder="What's on your mind, Alex?" id="" cols="30" rows="3"></textarea>
-                    <div class="add-post-links">
-                        <a href="#"><img src="jsp/homepage/images/live-video.png" alt="">Live Video</a>
-                        <a href="#"><img src="jsp/homepage/images/photo.png" alt="">Photo/Video</a>
-                        <a href="#"><img src="jsp/homepage/images/feeling.png" alt="">Feeling Activity</a>
+<%--                <div class="post-upload-textarea">--%>
+<%--                    <textarea name="" placeholder="What's on your mind, Alex?" id="" cols="30" rows="3"></textarea>--%>
+<%--                    <div class="add-post-links">--%>
+<%--                        <a href="#"><img src="jsp/homepage/images/live-video.png" alt="">Live Video</a>--%>
+<%--                        <a href="#"><img src="jsp/homepage/images/photo.png" alt="">Photo/Video</a>--%>
+<%--                        <a href="#"><img src="jsp/homepage/images/feeling.png" alt="">Feeling Activity</a>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+            <div class="write-post-container">
+                <form action="/posts" method="post">
+                    <input type="hidden" value="add-post" name="action">
+                    <input type="hidden" value="${currentUser.id}" name="userId">
+                    <div class="user-profile">
+                        <img src="${currentUser.avatar}" alt="">
+                        <div>
+                            <p> ${currentUser.fullName}</p>
+                            <small>
+                                <select name="viewModeId" class="form-control"
+                                        aria-label="Default select example">
+                                    <c:forEach items="${viewModes}" var="viewMode">
+                                        <option value="${viewMode.id}">${viewMode.name}</option>
+                                    </c:forEach>
+                                </select>
+                                <i class="fas fa-caret-down"></i>
+                            </small>
+                        </div>
                     </div>
-                </div>
+                    <div class="post-upload-textarea">
+                    <textarea name="content" placeholder="What's on your mind, ${currentUser.fullName}?" id="" cols="30"
+                              rows="3"></textarea>
+                        <div class="add-post-links">
+                            <input type="text" name="image" placeholder="Insert your image">
+                            <%--                        <a href="#"><img src="images/photo.png" alt="">Photo/Video</a>--%>
+                            <button>Post</button>
+                        </div>
+                    </div>
+                </form>
             </div>
 
             <c:forEach items="${publicPosts}" var="post">

@@ -140,6 +140,17 @@ public class FriendShipServiceImpl implements FriendShipService {
         return false;
     }
 
+    public int getRelationshipByUsers(int userId1, int userId2) {
+        List<FriendShip> friendShips = findAll();
+        for (FriendShip f : friendShips) {
+            if ((f.getUser1().getId() == userId1 && f.getUser2().getId() == userId2)
+                    || (f.getUser2().getId() == userId1 && f.getUser1().getId() == userId2)) {
+                return f.getStatus().getId();
+            }
+        }
+        return 0;
+    }
+
     @Override //chỉnh sửa trạng thái bạn bè
     public boolean update(FriendShip friendShip) {
 

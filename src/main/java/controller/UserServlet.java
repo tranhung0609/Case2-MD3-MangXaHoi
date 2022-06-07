@@ -84,6 +84,8 @@ public class UserServlet extends HttpServlet {
         request.setAttribute("mutualFriends", mutualFriends);
         List<Post> publicPosts = postService.findAllPublicByUserId(id);
         request.setAttribute("publicPosts", publicPosts);
+        int relationship = friendShipService.getRelationshipByUsers(id, UserServiceImpl.currentUsers.getId());
+        request.setAttribute("relationship", relationship);
         request.getRequestDispatcher("jsp/profile.jsp").forward(request, response);
     }
 
@@ -189,15 +191,15 @@ public class UserServlet extends HttpServlet {
         if (userService.checkLogin(email, password)) {
             session.setAttribute("currentUser", UserServiceImpl.currentUsers);
             List<User> myFriends = friendShipService.findFriendsByUserId(UserServiceImpl.currentUsers.getId());
-            session.setAttribute("myFriends", myFriends);
+            request.setAttribute("myFriends", myFriends);
             List<User> otherUsers = friendShipService.findAllOtherFriends(UserServiceImpl.currentUsers.getId());
-            session.setAttribute("otherUsers", otherUsers);
+            request.setAttribute("otherUsers", otherUsers);
             List<User> friendRequests = friendShipService.findFriendRequests(UserServiceImpl.currentUsers.getId());
-            session.setAttribute("friendRequests", friendRequests);
+            request.setAttribute("friendRequests", friendRequests);
             List<ViewMode> viewModes = viewModeService.findAll();
-            session.setAttribute("viewModes", viewModes);
+            request.setAttribute("viewModes", viewModes);
             List<Post> posts = postService.findAllOfFriends(UserServiceImpl.currentUsers.getId());
-            session.setAttribute("postsOfFriends", posts);
+            request.setAttribute("postsOfFriends", posts);
                     requestDispatcher.forward(request, response);
         } else {
             response.sendRedirect("/users?action=login");

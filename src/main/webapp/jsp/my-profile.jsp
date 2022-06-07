@@ -191,23 +191,53 @@
         <!-- main-content------- -->
 
         <div class="content-area profile-content-area">
-            <div class="write-post-container">
-                <div class="user-profile">
-                    <img src="${currentUser.avatar}" alt="">
-                    <div>
-                        <p> ${currentUser.fullName}</p>
-                        <small>Public <i class="fas fa-caret-down"></i></small>
-                    </div>
-                </div>
+<%--            <div class="write-post-container">--%>
+<%--                <div class="user-profile">--%>
+<%--                    <img src="${currentUser.avatar}" alt="">--%>
+<%--                    <div>--%>
+<%--                        <p> ${currentUser.fullName}</p>--%>
+<%--                        <small>Public <i class="fas fa-caret-down"></i></small>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
 
-                <div class="post-upload-textarea">
-                    <textarea name="" placeholder="What's on your mind, Alex?" id="" cols="30" rows="3"></textarea>
-                    <div class="add-post-links">
-                        <a href="#"><img src="jsp/homepage/images/live-video.png" alt="">Live Video</a>
-                        <a href="#"><img src="jsp/homepage/images/photo.png" alt="">Photo/Video</a>
-                        <a href="#"><img src="jsp/homepage/images/feeling.png" alt="">Feeling Activity</a>
+<%--                <div class="post-upload-textarea">--%>
+<%--                    <textarea name="" placeholder="What's on your mind, Alex?" id="" cols="30" rows="3"></textarea>--%>
+<%--                    <div class="add-post-links">--%>
+<%--                        <a href="#"><img src="jsp/homepage/images/live-video.png" alt="">Live Video</a>--%>
+<%--                        <a href="#"><img src="jsp/homepage/images/photo.png" alt="">Photo/Video</a>--%>
+<%--                        <a href="#"><img src="jsp/homepage/images/feeling.png" alt="">Feeling Activity</a>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+            <div class="write-post-container">
+                <form action="/posts" method="post">
+                    <input type="hidden" value="add-post" name="action">
+                    <input type="hidden" value="${currentUser.id}" name="userId">
+                    <div class="user-profile">
+                        <img src="${currentUser.avatar}" alt="">
+                        <div>
+                            <p> ${currentUser.fullName}</p>
+                            <small>
+                                <select name="viewModeId" class="form-control"
+                                        aria-label="Default select example">
+                                    <c:forEach items="${viewModes}" var="viewMode">
+                                        <option value="${viewMode.id}">${viewMode.name}</option>
+                                    </c:forEach>
+                                </select>
+                                <i class="fas fa-caret-down"></i>
+                            </small>
+                        </div>
                     </div>
-                </div>
+                    <div class="post-upload-textarea">
+                    <textarea name="content" placeholder="What's on your mind, ${currentUser.fullName}?" id="" cols="30"
+                              rows="3"></textarea>
+                        <div class="add-post-links">
+                            <input type="text" name="image" placeholder="Insert your image">
+                            <%--                        <a href="#"><img src="images/photo.png" alt="">Photo/Video</a>--%>
+                            <button>Post</button>
+                        </div>
+                    </div>
+                </form>
             </div>
             <c:forEach items="${myPosts}" var="post">
                 <div class="status-field-container write-post-container">
@@ -240,7 +270,7 @@
                                 </form>
                             </div>
                             <div><img src="jsp/homepage/images/comments.png" alt="">${post.commentCount} comments</div>
-                            <div><img src="jsp/homepage/images/share.png" alt="">35</div>
+                            <div><img src="jsp/homepage/images/share.png" alt=""></div>
                         </div>
                         <div class="post-profile-picture">
                             <img src="${currentUser.avatar}" alt=""> <i class=" fas fa-caret-down"></i>
