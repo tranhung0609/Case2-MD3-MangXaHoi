@@ -26,7 +26,7 @@ function likePost(){
         document.getElementById('likeThumb').className = "fa-solid fa-thumbs-up fa-regular"
 
     }else {
-        document.getElementById('likeThumb').className = "fa-regular fa-thumbs-up"
+        document.getElementById('likeThumb').className = "fa-solid fa-thumbs-up fa-regular"
     }
 }
 
